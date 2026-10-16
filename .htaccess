@@ -1,0 +1,9 @@
+# mäisyndic — configuration Apache (hébergement OVHcloud)
+ErrorDocument 404 /404.html
+DirectoryIndex index.html
+
+# À activer une fois le certificat SSL (HTTPS) actif dans l'espace client OVHcloud :
+# retirez le « # » au début des trois lignes suivantes.
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
