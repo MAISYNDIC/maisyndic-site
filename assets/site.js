@@ -221,7 +221,7 @@
       var isQuote = !objet || objet.value === "devis";
       new FormData(form).forEach(function (v, k) {
         if (k === "_honey" || k === "consent") return;
-        if (!isQuote && (k === "lots" || k === "plan")) return;
+        if (!isQuote && (k === "lots" || k === "plan" || k === "residence")) return;
         payload[k] = v;
       });
       payload.consentement = "oui";

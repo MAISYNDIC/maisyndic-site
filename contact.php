@@ -110,6 +110,7 @@ $lots = ($lots >= 1 && $lots <= 2000) ? $lots : 0;
 $phone = clean_line($in['phone'] ?? '', 40);
 $role = clean_line($in['role'] ?? '', 80);
 $message = clean_text($in['message'] ?? '');
+$residence = clean_line($in['residence'] ?? '', 120);
 
 /** Montant au format de la langue (sans dépendre de l'extension intl). */
 function money(float $v, int $dec, string $lang): string
@@ -191,7 +192,10 @@ function smtp_send(array $c, string $to, string $data): bool
 
 $GLOBALS['via'] = [];
 
-function send_mail(string $to, string $subject, string $body, string $replyTo): bool
+/**
+ * $attachments : liste de ['name' => 'fichier.pdf', 'data' => contenu binaire].
+ */
+function send_mail(string $to, string $subject, string $body, string $replyTo, array $attachments = []): bool
 {
     $headers = [
         'Date: ' . date('r'),
@@ -199,9 +203,23 @@ function send_mail(string $to, string $subject, string $body, string $replyTo): 
         'From: ' . encode_header(FROM_NAME) . ' <' . TO_ADDRESS . '>',
         'Reply-To: ' . $replyTo,
         'MIME-Version: 1.0',
-        'Content-Type: text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding: 8bit',
     ];
+    if ($attachments) {
+        $b = 'ms-' . bin2hex(random_bytes(10));
+        $headers[] = 'Content-Type: multipart/mixed; boundary="' . $b . '"';
+        $mime = "This is a multi-part message in MIME format.\r\n\r\n--{$b}\r\n"
+            . "Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" . $body . "\r\n";
+        foreach ($attachments as $a) {
+            $fname = preg_replace('/[^A-Za-z0-9._-]/', '-', $a['name']);
+            $mime .= "--{$b}\r\nContent-Type: application/pdf; name=\"{$fname}\"\r\n"
+                . "Content-Transfer-Encoding: base64\r\nContent-Disposition: attachment; filename=\"{$fname}\"\r\n\r\n"
+                . chunk_split(base64_encode($a['data']), 76, "\r\n");
+        }
+        $body = $mime . "--{$b}--\r\n";
+    } else {
+        $headers[] = 'Content-Type: text/plain; charset=UTF-8';
+        $headers[] = 'Content-Transfer-Encoding: 8bit';
+    }
     $c = smtp_config();
     if ($c !== null) {
         $data = 'To: ' . $to . "\r\n" . 'Subject: ' . encode_header($subject) . "\r\n" . implode("\r\n", $headers) . "\r\n\r\n" . $body;
@@ -215,6 +233,75 @@ function send_mail(string $to, string $subject, string $body, string $replyTo): 
     return mail($to, encode_header($subject), $body, implode("\r\n", $headers), '-f' . TO_ADDRESS);
 }
 
+/**
+ * Le devis (langue du demandeur) et le contrat : pré-rempli si une formule a été
+ * choisie, sinon contrat type. Textes : quote-data.json (généré par le site).
+ */
+function build_quote_documents(string $plan, int $lots, string $lang, string $name, string $email,
+                               string $phone, string $role, string $commune, string $residence): array
+{
+    global $Q;
+    $Q = json_decode((string) @file_get_contents(__DIR__ . '/quote-data.json'), true);
+    if (!is_array($Q)) {
+        throw new RuntimeException('quote-data');
+    }
+    require_once __DIR__ . '/lib/msdocs.php';
+    date_default_timezone_set('Europe/Luxembourg');
+    $lang = isset($Q['i18n'][$lang]) ? $lang : 'fr';
+    $ref = 'MS-' . date('ymd') . '-' . strtoupper(bin2hex(random_bytes(2)));
+    $today = new DateTimeImmutable('today');
+    $date = $today->format('d/m/Y');
+    $valid = $today->modify('+3 months')->format('d/m/Y');
+
+    $chosen = in_array($plan, ['benevole', 'essentiel', 'serenite'], true) ? $plan : '';
+    $benevoleOut = false;
+    if ($chosen === 'benevole' && $lots > 9) {
+        $chosen = '';
+        $benevoleOut = true;
+    }
+
+    $quote = ms_quote_pdf($Q, [
+        'lang' => $lang, 'ref' => $ref, 'date' => $date, 'valid' => $valid,
+        'name' => $name, 'email' => $email, 'phone' => $phone, 'role' => $role,
+        'commune' => $commune, 'residence' => $residence, 'lots' => $lots,
+        'plan' => $chosen, 'contract' => $chosen !== '' ? 'filled' : 'both', 'benevole_out' => $benevoleOut,
+        'money' => fn(float $v, int $d) => money($v, $d, $lang),
+    ]);
+
+    // Contrats (en français) : celui de la formule choisie ; sans choix, les deux formules
+    // de syndic pré-remplies (Essentiel et Sérénité).
+    $blank = $Q['meta']['blank'];
+    $res = $residence !== '' ? $residence : $blank;
+    $plans = $chosen !== '' ? [$chosen] : ['essentiel', 'serenite'];
+    $contracts = [];
+    foreach ($plans as $p) {
+        $k = $p === 'benevole' ? 'benevole' : 'syndic';
+        $meta = $Q['meta'][$k];
+        $grid = $Q['prices'][$p];
+        [$rate] = ms_rate($grid, $lots);
+        $monthly = max($rate * $lots, (float) $grid['min']);
+        $pname = $Q['i18n']['fr']['plans'][$p]['name'] ?? $p;
+        $vals = [
+            'residence' => $res, 'commune' => $commune, 'date_ag' => $blank, 'representant' => $blank,
+            'debut' => $blank, 'fin' => $blank, 'logements' => (string) $lots, 'caves' => $blank,
+            'mois' => money($monthly, 2, 'fr'), 'an' => money($monthly * 12, 2, 'fr'), 'ref' => $ref,
+            'date' => $date, 'ref_line' => 'Devis n° ' . $ref . ' du ' . $date,
+            'formule_choix' => $pname,
+            'taux_sinistre' => $p === 'essentiel' ? 'sinistres, ' : '',
+            'sinistre' => $p === 'essentiel' ? 'Au temps passé' : 'Inclus dans le forfait',
+        ];
+        $repl = ['{residence}' => $res, '{ref}' => $ref, '{date}' => $date, '{formule}' => $pname];
+        $vals['titre'] = $residence !== '' ? strtr($meta['title_filled'], $repl)
+            : ($k === 'syndic' ? 'Contrat de syndic – mäisyndic' : strtr($meta['title_filled'], $repl));
+        $vals['sous_titre'] = strtr($meta['sub_filled'], $repl);
+        $contracts[] = ['name' => str_replace('{plan}', $p, $meta['file']),
+            'data' => ms_contract_pdf($Q, $k, $vals, 'Page {n} sur {t}', $p)];
+    }
+    $GLOBALS['contract_count'] = count($contracts);
+
+    return array_merge([['name' => str_replace('{ref}', $ref, $Q['i18n'][$lang]['file']), 'data' => $quote]], $contracts);
+}
+
 // --- 1. La demande, pour l'équipe -----------------------------------------
 $L = $labels[$pageLang] ?? ($labels['fr'] ?? []);
 $planName = $cfg['langs']['fr']['plans'][$plan] ?? ($plan !== '' ? $plan : '—');
@@ -222,6 +309,7 @@ $rows = [
     'Demande' => $cfg['objets_fr'][$objet] ?? $objet,
     'Nombre de lots' => $lots ?: '—',
     'Commune' => $commune,
+    'Résidence' => ($objet === 'devis' && $residence !== '') ? $residence : '—',
     'Formule' => $objet === 'devis' ? $planName : '—',
     'Vous êtes' => $role ?: '—',
     'Nom' => $name,
@@ -238,7 +326,22 @@ $body .= "\nMessage :\n" . ($message !== '' ? $message : '—') . "\n\n";
 $body .= "Répondez directement à cet e-mail pour écrire au demandeur.\n";
 $subject = 'Nouvelle demande mäisyndic (' . strtoupper($pageLang) . ') – ' . ($cfg['objets_fr'][$objet] ?? $objet) . ' – ' . $commune;
 
-if (!send_mail(TO_ADDRESS, $subject, $body, $email)) {
+// --- Devis PDF et contrat joints (demande de devis uniquement) -----------
+$attachments = [];
+if ($objet === 'devis' && $lots >= 2) {
+    try {
+        $attachments = build_quote_documents($plan, $lots, $lang, $name, $email, $phone, $role, $commune, $residence);
+    } catch (Throwable $e) {
+        $attachments = [];
+        $GLOBALS['via'][] = 'pdf-failed';
+        error_log('maisyndic pdf: ' . $e->getMessage());
+    }
+}
+if ($attachments) {
+    $body .= "\nLe devis et le ou les contrats envoyés au demandeur sont joints à cet e-mail.\n";
+}
+
+if (!send_mail(TO_ADDRESS, $subject, $body, $email, $attachments)) {
     respond(false, 'send', 500);
 }
 
@@ -271,6 +374,10 @@ $reply = strtr($t[$objet], [
     '{estimation}' => $estimation,
 ]);
 $replySubject = ($objet === 'devis' && !empty($t['subject_devis'])) ? strtr($t['subject_devis'], ['{commune}' => $commune]) : $t['subject'];
-send_mail($email, $replySubject, $reply, TO_ADDRESS);
+if ($attachments && !empty($Q['i18n'][$lang]['pj_from'])) {
+    $pjTo = ($GLOBALS['contract_count'] ?? 1) > 1 ? $Q['i18n'][$lang]['pj_to_both'] : $Q['i18n'][$lang]['pj_to'];
+    $reply = str_replace($Q['i18n'][$lang]['pj_from'], $pjTo, $reply);
+}
+send_mail($email, $replySubject, $reply, TO_ADDRESS, $attachments);
 
 respond(true);

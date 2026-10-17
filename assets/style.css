@@ -2,21 +2,13 @@
    Mise en page : bandes pleine largeur, contenu centré à 1200 px, cartes souples sur fond bleu-gris très clair.
    Couleurs : encre bleu nuit, accent bleu « fenêtre », touches orangées pour le bénévolat. */
 
-/* Polices hébergées sur le site (aucun appel à Google, licence SIL Open Font License). */
+/* Police hébergée sur le site : Inter (aucun appel à Google, licence SIL Open Font License). */
 @font-face {
-  font-family: "Bricolage Grotesque";
+  font-family: "Inter";
   font-style: normal;
-  font-weight: 500 800;
+  font-weight: 100 900;
   font-display: swap;
-  src: url("fonts/bricolage-grotesque-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Instrument Sans";
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url("fonts/instrument-sans-latin.woff2") format("woff2");
+  src: url("fonts/inter-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -47,8 +39,8 @@
   --shadow: rgba(14, 30, 44, 0.28);
   --focus: #F2994A;
 
-  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 
   --step--1: 0.875rem;
   --step-0: 1rem;
@@ -178,8 +170,8 @@ ul, ol { margin: 0; }
 .logo { width: 40px; height: 40px; flex: none; }
 .logo-body { fill: var(--accent); }
 .logo-win { fill: var(--on-accent); }
-.wordmark { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: -0.04em; line-height: 1; font-weight: 500; }
-.wordmark b { font-weight: 800; color: var(--accent); }
+.wordmark { font-family: var(--font-display); font-size: 1.55rem; letter-spacing: -0.03em; line-height: 1; font-weight: 500; }
+.wordmark b { font-weight: 700; color: var(--accent); }
 
 .menu-toggle {
   display: none;
@@ -243,8 +235,8 @@ ul, ol { margin: 0; }
 .section-head { display: flex; flex-direction: column; gap: 12px; max-width: 46rem; }
 .eyebrow { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
 .band-dark .eyebrow { color: var(--on-dark-accent); }
-h1, .h1 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-4); line-height: 1.04; letter-spacing: -0.035em; }
-h2, .h2 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-3); line-height: 1.1; letter-spacing: -0.03em; }
+h1, .h1 { font-family: var(--font-display); font-weight: 700; font-size: var(--step-4); line-height: 1.08; letter-spacing: -0.025em; }
+h2, .h2 { font-family: var(--font-display); font-weight: 700; font-size: var(--step-3); line-height: 1.15; letter-spacing: -0.02em; }
 h3 { font-size: var(--step-2); font-weight: 700; line-height: 1.3; }
 .lead { font-size: var(--step-1); color: var(--fg-2); max-width: 40rem; }
 .band-dark .lead { color: var(--on-dark-2); }
@@ -318,10 +310,10 @@ h3 { font-size: var(--step-2); font-weight: 700; line-height: 1.3; }
 }
 .plan--accent { border: 2px solid var(--accent); }
 .plan .badge { align-self: flex-start; }
-.plan h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; letter-spacing: -0.02em; }
+.plan h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.75rem; letter-spacing: -0.02em; }
 .plan-desc { color: var(--fg-2); font-size: 1.0625rem; }
 .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; color: var(--fg-3); }
-.price .amount { font-family: var(--font-display); font-weight: 800; font-size: 2.75rem; letter-spacing: -0.03em; color: var(--fg); line-height: 1; }
+.price .amount { font-family: var(--font-display); font-weight: 700; font-size: 2.75rem; letter-spacing: -0.03em; color: var(--fg); line-height: 1; }
 .checks { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
 .checks li { display: flex; gap: 10px; }
 .checks svg { margin-top: 3px; }
@@ -330,7 +322,7 @@ h3 { font-size: var(--step-2); font-weight: 700; line-height: 1.3; }
 /* ---------- Étapes ---------- */
 .steps { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 24px; counter-reset: step; }
 .steps li { flex: 1 1 230px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding-top: 20px; border-top: 1px solid var(--dark-line); }
-.step-num { font-family: var(--font-display); font-weight: 800; font-size: 2.5rem; line-height: 1; color: var(--on-dark-accent); }
+.step-num { font-family: var(--font-display); font-weight: 700; font-size: 2.5rem; line-height: 1; color: var(--on-dark-accent); }
 .steps p { color: var(--on-dark-2); }
 .band-dark a { color: var(--on-dark-accent); }
 
@@ -338,7 +330,7 @@ h3 { font-size: var(--step-2); font-weight: 700; line-height: 1.3; }
 .timeline li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 20px; padding-bottom: 32px; position: relative; }
 .timeline li::before { content: ""; position: absolute; left: 27px; top: 56px; bottom: 0; width: 2px; background: var(--line); }
 .timeline li:last-child::before { display: none; }
-.timeline .num { width: 56px; height: 56px; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; }
+.timeline .num { width: 56px; height: 56px; border-radius: 999px; background: var(--accent); color: var(--on-accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; }
 .timeline h3 { margin-top: 12px; }
 .timeline p { color: var(--fg-2); margin-top: 6px; }
 
@@ -358,7 +350,7 @@ h3 { font-size: var(--step-2); font-weight: 700; line-height: 1.3; }
 .compare tbody th { font-weight: 600; }
 .compare td { color: var(--fg-2); }
 .compare .ours { background: var(--accent-soft); color: var(--fg); font-weight: 600; }
-.compare thead .ours { color: var(--accent-soft-fg); font-weight: 800; }
+.compare thead .ours { color: var(--accent-soft-fg); font-weight: 700; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ---------- Proximité ---------- */
@@ -435,7 +427,7 @@ h3 { font-size: var(--step-2); font-weight: 700; line-height: 1.3; }
 .stepper { display: flex; align-items: center; gap: 10px; }
 .stepper button { width: 48px; height: 48px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--fg); font: inherit; font-size: 1.5rem; cursor: pointer; }
 .stepper button:hover { border-color: var(--fg); }
-.stepper input { width: 110px; min-height: 48px; text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--fg); font-variant-numeric: tabular-nums; }
+.stepper input { width: 110px; min-height: 48px; text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--fg); font-variant-numeric: tabular-nums; }
 .help { color: var(--fg-3); font-size: var(--step--1); }
 fieldset { min-width: 0; border: 0; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 10px; }
 legend { padding: 0; margin-bottom: 4px; }
@@ -446,7 +438,7 @@ legend { padding: 0; margin-bottom: 4px; }
 .plan-option .opt-price { color: var(--fg-3); font-size: 0.9rem; font-variant-numeric: tabular-nums; text-align: right; flex: 0 1 auto; min-width: 0; }
 .calc-result { flex: 1 1 320px; min-width: 0; padding: 28px; border-radius: var(--radius-l); background: var(--band-dark); color: var(--on-dark); display: flex; flex-direction: column; gap: 10px; }
 .result-label { color: var(--on-dark-2); font-weight: 600; }
-.result-total { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.6rem, 2rem + 2vw, 3.6rem); line-height: 1.05; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.result-total { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 2rem + 2vw, 3.6rem); line-height: 1.05; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 .result-per { color: var(--on-dark-2); font-size: 1.0625rem; }
 .calc-result .warn { color: #FFD9B8; font-size: 0.95rem; }
 .calc-result .btn { margin-top: auto; }

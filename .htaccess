@@ -12,9 +12,9 @@ RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteRule ^ https://maisyndic.lu%{REQUEST_URI} [L,R=301]
 
 # --- Données internes du formulaire : non consultables depuis le web ---
-<Files "contact-data.json">
+<FilesMatch "^(contact|quote)-data\.json$">
 Require all denied
-</Files>
+</FilesMatch>
 
 # --- Sécurité ---
 <IfModule mod_headers.c>
