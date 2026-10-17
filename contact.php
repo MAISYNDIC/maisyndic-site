@@ -149,6 +149,7 @@ function smtp_send(array $c, string $to, string $data): bool
     $target = $c['target'] ?? 'ssl://ssl0.ovh.net:465';
     $fp = @stream_socket_client($target, $errno, $errstr, 15);
     if (!$fp) {
+        $GLOBALS['smtp_err'] = 'connect:' . $errno;
         return false;
     }
     stream_set_timeout($fp, 15);
@@ -164,7 +165,12 @@ function smtp_send(array $c, string $to, string $data): bool
     };
     $cmd = function (string $line, string $expect) use ($fp, $read): bool {
         fwrite($fp, $line . "\r\n");
-        return strncmp($read(), $expect, strlen($expect)) === 0;
+        $resp = $read();
+        if (strncmp($resp, $expect, strlen($expect)) !== 0) {
+            $GLOBALS['smtp_err'] = strtok($line, ' ') . ':' . substr(trim($resp), 0, 3);
+            return false;
+        }
+        return true;
     };
     $ok = strncmp($read(), '220', 3) === 0
         && $cmd('EHLO maisyndic.lu', '250')
@@ -203,7 +209,7 @@ function send_mail(string $to, string $subject, string $body, string $replyTo): 
             $GLOBALS['via'][] = 'smtp';
             return true;
         }
-        $GLOBALS['via'][] = 'smtp-failed';
+        $GLOBALS['via'][] = 'smtp-failed(' . ($GLOBALS['smtp_err'] ?? '?') . ')';
     }
     $GLOBALS['via'][] = 'mail';
     return mail($to, encode_header($subject), $body, implode("\r\n", $headers), '-f' . TO_ADDRESS);
