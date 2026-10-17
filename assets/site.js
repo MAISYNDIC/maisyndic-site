@@ -114,6 +114,7 @@
       if (params.get("lots")) form.querySelector("#q-lots").value = params.get("lots");
       if (params.get("plan")) form.querySelector("#q-plan").value = params.get("plan");
       if (params.get("objet") && objet) objet.value = params.get("objet");
+      if (params.get("commune")) form.querySelector("#q-commune").value = params.get("commune");
     } catch (e) { /* ignoré */ }
 
     // Les champs propres au devis de syndic disparaissent pour une vente ou une location.

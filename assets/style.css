@@ -534,3 +534,10 @@ h1, h2, h3, .h1, .h2 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens
 .tiers { font-size: var(--step--1); color: var(--fg-2); margin-top: -4px; }
 .tiers-min { color: var(--fg-3); margin-top: -8px; }
 .plan--accent .tiers, .plan--accent .tiers-min { color: inherit; opacity: .85; }
+
+/* ---------- Pages par commune ---------- */
+.commune-price { min-width: 520px; }
+.footer-communes { padding-top: 20px; padding-bottom: 4px; font-size: .875rem; line-height: 1.9; color: inherit; opacity: .9; border-top: 1px solid rgba(255,255,255,.14); }
+.footer-communes .footer-title { display: inline; margin-right: 8px; }
+.footer-communes a { color: inherit; text-decoration: none; white-space: nowrap; }
+.footer-communes a:hover { text-decoration: underline; }
