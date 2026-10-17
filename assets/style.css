@@ -493,3 +493,34 @@ legend { padding: 0; margin-bottom: 4px; }
 /* Mots longs (allemand) : coupure propre sur petit écran. */
 h1, h2, h3, .h1, .h2 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }
 .wrap, .stack > *, .calc-grid > * { min-width: 0; }
+
+/* ---------- Page d'atterrissage Google (devis-syndic) ---------- */
+.lp-header { background: var(--bg); border-bottom: 1px solid var(--line); }
+.lp-header-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.lp-header .btn svg { color: var(--accent); }
+.lp-hero-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px 56px; padding-block: clamp(32px, 5vw, 72px) 24px; }
+.lp-pitch { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+.lp-pitch h1 { font-size: clamp(2.125rem, 1.4rem + 3vw, 3.6rem); max-width: 16ch; }
+.lp-pitch .lead { font-size: 1.1875rem; color: var(--fg-2); }
+.lp-pitch .checks { font-weight: 500; }
+.lp-form-col { flex: 1 1 420px; min-width: 0; display: flex; scroll-margin-top: 16px; }
+.lp-form-col > * { flex: 1 1 auto; }
+.lp-form { box-shadow: 0 18px 50px -24px var(--shadow); gap: 14px; padding: 28px; }
+.lp-form-head h2 { font-size: 1.6rem; }
+.lp-form .field textarea { min-height: 84px; }
+.lp-submit { width: 100%; justify-content: center; }
+.lp-trust { font-size: var(--step--1); color: var(--fg-3); padding-bottom: 28px; }
+.lp-final { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.lp-footer { background: var(--band-dark); color: var(--on-dark-2, #C9D6E2); font-size: var(--step--1); }
+.lp-footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 24px calc(24px + 72px); }
+.lp-footer a { color: var(--on-dark-accent); }
+.lp-sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: flex; gap: 10px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--bg); border-top: 1px solid var(--line); box-shadow: 0 -8px 24px -16px var(--shadow); }
+.lp-sticky .btn-primary { flex: 1; justify-content: center; }
+.lp-sticky .btn-secondary svg { color: var(--accent); }
+@media (min-width: 900px) {
+  .lp-sticky { display: none; }
+  .lp-footer-row { padding-bottom: 24px; }
+}
+.band-dark .lp-final .btn-on-accent, .band-dark .lp-final .btn-on-accent:hover { color: var(--accent); }
+.lp-pains .card { flex-basis: calc(50% - 10px); }
+@media (max-width: 640px) { .lp-pains .card { flex-basis: 100%; } }
