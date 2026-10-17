@@ -22,7 +22,11 @@ header('X-Content-Type-Options: nosniff');
 function respond(bool $ok, string $error = '', int $status = 200): void
 {
     http_response_code($status);
-    echo json_encode($ok ? ['success' => true, 'via' => $GLOBALS['via'] ?? []] : ['success' => false, 'error' => $error]);
+    // Le détail technique de l'envoi reste dans le journal du serveur, jamais dans la réponse.
+    if (!empty($GLOBALS['via'])) {
+        error_log('maisyndic envoi: ' . implode(',', $GLOBALS['via']));
+    }
+    echo json_encode($ok ? ['success' => true] : ['success' => false, 'error' => $error]);
     exit;
 }
 
@@ -164,26 +168,27 @@ function smtp_send(array $c, string $to, string $data): bool
         }
         return $out;
     };
-    $cmd = function (string $line, string $expect) use ($fp, $read): bool {
+    // $step : libellé neutre enregistré en cas d'échec (jamais le contenu envoyé).
+    $cmd = function (string $line, string $expect, string $step) use ($fp, $read): bool {
         fwrite($fp, $line . "\r\n");
         $resp = $read();
         if (strncmp($resp, $expect, strlen($expect)) !== 0) {
-            $GLOBALS['smtp_err'] = strtok($line, ' ') . ':' . substr(trim($resp), 0, 3);
+            $GLOBALS['smtp_err'] = $step . ':' . substr(trim($resp), 0, 3);
             return false;
         }
         return true;
     };
     $ok = strncmp($read(), '220', 3) === 0
-        && $cmd('EHLO maisyndic.lu', '250')
-        && $cmd('AUTH LOGIN', '334')
-        && $cmd(base64_encode($c['user'] ?? TO_ADDRESS), '334')
-        && $cmd(base64_encode($c['pass']), '235')
-        && $cmd('MAIL FROM:<' . TO_ADDRESS . '>', '250')
-        && $cmd('RCPT TO:<' . $to . '>', '25')
-        && $cmd('DATA', '354');
+        && $cmd('EHLO maisyndic.lu', '250', 'ehlo')
+        && $cmd('AUTH LOGIN', '334', 'auth')
+        && $cmd(base64_encode($c['user'] ?? TO_ADDRESS), '334', 'user')
+        && $cmd(base64_encode($c['pass']), '235', 'pass')
+        && $cmd('MAIL FROM:<' . TO_ADDRESS . '>', '250', 'from')
+        && $cmd('RCPT TO:<' . $to . '>', '25', 'rcpt')
+        && $cmd('DATA', '354', 'data');
     if ($ok) {
         $body = preg_replace('/^\./m', '..', str_replace(["\r\n", "\r", "\n"], ["\n", "\n", "\r\n"], $data));
-        $ok = $cmd($body . "\r\n.", '250');
+        $ok = $cmd($body . "\r\n.", '250', 'body');
     }
     @fwrite($fp, "QUIT\r\n");
     fclose($fp);
