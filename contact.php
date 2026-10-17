@@ -241,6 +241,7 @@ if ($objet === 'devis' && $price && $lots >= 2 && !($plan === 'benevole' && $lot
         '{total}' => money($price * $lots, 0, $lang),
         '{mois}' => money($price * $lots / 12, 2, $lang),
         '{parlot}' => money((float) $price, 0, $lang),
+        '{compris}' => $t['includes'][$plan] ?? '',
     ]);
 }
 $reply = strtr($t[$objet], [
@@ -249,6 +250,7 @@ $reply = strtr($t[$objet], [
     '{commune}' => $commune,
     '{estimation}' => $estimation,
 ]);
-send_mail($email, $t['subject'], $reply, TO_ADDRESS);
+$replySubject = ($objet === 'devis' && !empty($t['subject_devis'])) ? strtr($t['subject_devis'], ['{commune}' => $commune]) : $t['subject'];
+send_mail($email, $replySubject, $reply, TO_ADDRESS);
 
 respond(true);
