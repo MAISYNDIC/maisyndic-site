@@ -537,3 +537,8 @@ h1, h2, h3, .h1, .h2 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens
 .guide .list { display: flex; flex-direction: column; gap: 8px; padding-left: 1.2em; color: var(--fg-2); }
 .guide p + p, .guide p + ul, .guide ul + p { margin-top: 10px; }
 .guide-aside h2 { font-size: 1.4rem; } .guide-aside h3 { font-size: 1.05rem; margin-top: 8px; }
+
+/* Paliers de prix sous le montant des formules */
+.tiers { font-size: var(--step--1); color: var(--fg-2); margin-top: -4px; }
+.tiers-min { color: var(--fg-3); margin-top: -8px; }
+.plan--accent .tiers, .plan--accent .tiers-min { color: inherit; opacity: .85; }

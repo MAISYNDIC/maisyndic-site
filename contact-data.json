@@ -1,8 +1,48 @@
 {
  "prices": {
-  "benevole": 70,
-  "essentiel": 150,
-  "serenite": 210
+  "benevole": {
+   "tiers": [
+    [
+     null,
+     10.9
+    ]
+   ],
+   "min": 49
+  },
+  "essentiel": {
+   "tiers": [
+    [
+     10,
+     24.9
+    ],
+    [
+     30,
+     21.9
+    ],
+    [
+     null,
+     20.0
+    ]
+   ],
+   "min": 159
+  },
+  "serenite": {
+   "tiers": [
+    [
+     10,
+     29.9
+    ],
+    [
+     30,
+     26.9
+    ],
+    [
+     null,
+     25.0
+    ]
+   ],
+   "min": 199
+  }
  },
  "langs": {
   "fr": {

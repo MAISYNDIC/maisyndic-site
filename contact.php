@@ -245,13 +245,22 @@ if (!send_mail(TO_ADDRESS, $subject, $body, $email)) {
 // --- 2. La réponse automatique, pour le demandeur -------------------------
 $t = $cfg['langs'][$lang];
 $estimation = '';
-$price = $cfg['prices'][$plan] ?? null;
-if ($objet === 'devis' && $price && $lots >= 2 && !($plan === 'benevole' && $lots > 9)) {
+// Grille : prix par logement et par mois selon le palier, minimum mensuel par immeuble.
+$grid = $cfg['prices'][$plan] ?? null;
+if ($objet === 'devis' && is_array($grid) && $lots >= 2 && !($plan === 'benevole' && $lots > 9)) {
+    $rate = 0.0;
+    foreach ($grid['tiers'] as $tier) {
+        if ($tier[0] === null || $lots <= $tier[0]) {
+            $rate = (float) $tier[1];
+            break;
+        }
+    }
+    $monthly = max($rate * $lots, (float) $grid['min']);
     $estimation = strtr($t['estimate'], [
         '{formule}' => $t['plans'][$plan] ?? $plan,
-        '{total}' => money($price * $lots, 0, $lang),
-        '{mois}' => money($price * $lots / 12, 2, $lang),
-        '{parlot}' => money((float) $price, 0, $lang),
+        '{total}' => money($monthly * 12, 0, $lang),
+        '{mois}' => money($monthly, 2, $lang),
+        '{parlot}' => money($rate, 2, $lang),
         '{compris}' => $t['includes'][$plan] ?? '',
     ]);
 }

@@ -44,16 +44,34 @@
       return calc.querySelector("input[name='calc-plan']:checked");
     }
 
+    var minNote = calc.querySelector("[data-min-note]");
+
+    // Prix du palier correspondant au nombre de logements (appliqué à tout l'immeuble).
+    function rateFor(input, lots) {
+      var tiers = JSON.parse(input.getAttribute("data-tiers") || "[]");
+      for (var i = 0; i < tiers.length; i++) {
+        if (tiers[i][0] === null || lots <= tiers[i][0]) return tiers[i][1];
+      }
+      return 0;
+    }
+
     function update() {
       var lots = parseInt(lotsInput.value, 10);
       if (isNaN(lots) || lots < 2) lots = 2;
       if (lots > 200) lots = 200;
+      calc.querySelectorAll("input[name='calc-plan']").forEach(function (r) {
+        var out = r.parentNode.querySelector("[data-rate]");
+        if (out) out.textContent = money(rateFor(r, lots), 2);
+      });
       var plan = currentPlan();
-      var price = plan ? parseFloat(plan.getAttribute("data-price")) : 0;
-      totalOut.textContent = money(price * lots, 0);
-      perOut.textContent = perTemplate.replace("{value}", money(price / 12, 2));
+      var rate = plan ? rateFor(plan, lots) : 0;
+      var min = plan ? parseFloat(plan.getAttribute("data-min")) || 0 : 0;
+      var monthly = Math.max(rate * lots, min);
+      totalOut.textContent = money(monthly, 2);
+      perOut.textContent = perTemplate.replace("{value}", money(monthly * 12, 0));
+      if (minNote) minNote.hidden = !(rate * lots < min);
       warn.hidden = !(plan && plan.value === "benevole" && lots > 9);
-      big.hidden = lots <= 40;
+      big.hidden = lots <= 50;
       if (cta && plan) {
         cta.setAttribute("href", "contact.html?lots=" + lots + "&plan=" + encodeURIComponent(plan.value) + "#devis");
       }
