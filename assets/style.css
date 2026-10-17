@@ -524,3 +524,9 @@ h1, h2, h3, .h1, .h2 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens
 .band-dark .lp-final .btn-on-accent, .band-dark .lp-final .btn-on-accent:hover { color: var(--accent); }
 .lp-pains .card { flex-basis: calc(50% - 10px); }
 @media (max-width: 640px) { .lp-pains .card { flex-basis: 100%; } }
+.lp-header-actions { display: flex; align-items: center; gap: 14px; }
+@media (max-width: 520px) {
+  .lp-header .btn-sm span { display: none; }
+  .lp-header .btn-sm { padding: 0 12px; }
+  .lp-header-actions { gap: 8px; }
+}
