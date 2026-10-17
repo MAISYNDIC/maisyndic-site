@@ -22,7 +22,7 @@ header('X-Content-Type-Options: nosniff');
 function respond(bool $ok, string $error = '', int $status = 200): void
 {
     http_response_code($status);
-    echo json_encode($ok ? ['success' => true] : ['success' => false, 'error' => $error]);
+    echo json_encode($ok ? ['success' => true, 'via' => $GLOBALS['via'] ?? []] : ['success' => false, 'error' => $error]);
     exit;
 }
 
@@ -183,6 +183,8 @@ function smtp_send(array $c, string $to, string $data): bool
     return $ok;
 }
 
+$GLOBALS['via'] = [];
+
 function send_mail(string $to, string $subject, string $body, string $replyTo): bool
 {
     $headers = [
@@ -198,9 +200,12 @@ function send_mail(string $to, string $subject, string $body, string $replyTo): 
     if ($c !== null) {
         $data = 'To: ' . $to . "\r\n" . 'Subject: ' . encode_header($subject) . "\r\n" . implode("\r\n", $headers) . "\r\n\r\n" . $body;
         if (smtp_send($c, $to, $data)) {
+            $GLOBALS['via'][] = 'smtp';
             return true;
         }
+        $GLOBALS['via'][] = 'smtp-failed';
     }
+    $GLOBALS['via'][] = 'mail';
     return mail($to, encode_header($subject), $body, implode("\r\n", $headers), '-f' . TO_ADDRESS);
 }
 
