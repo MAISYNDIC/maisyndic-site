@@ -131,39 +131,6 @@
       return lines.join("\n");
     }
 
-    // Message envoyé automatiquement au propriétaire dès sa demande, dans sa langue de contact.
-    var autoreplyData = null;
-    try { autoreplyData = JSON.parse(form.getAttribute("data-autoreply") || "null"); } catch (e) { autoreplyData = null; }
-
-    function buildAutoreply(p, kind) {
-      if (!autoreplyData) return "";
-      var langs = autoreplyData.langs || {};
-      var t = langs[p.langue] || langs[lang] || langs.fr;
-      if (!t || !t[kind]) return "";
-      function fmt(value, decimals) {
-        try {
-          return new Intl.NumberFormat(t.locale, { style: "currency", currency: "EUR", minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(value);
-        } catch (e) {
-          return value.toFixed(decimals) + " €";
-        }
-      }
-      var estimation = "";
-      var lots = parseInt(p.lots, 10);
-      var price = autoreplyData.prices ? autoreplyData.prices[p.plan] : null;
-      if (kind === "devis" && price && lots >= 2 && !(p.plan === "benevole" && lots > 9)) {
-        estimation = t.estimate
-          .replace("{formule}", t.plans[p.plan] || p.plan)
-          .replace("{total}", fmt(price * lots, 0))
-          .replace("{mois}", fmt(price * lots / 12, 2))
-          .replace("{parlot}", fmt(price, 0));
-      }
-      return t[kind]
-        .split("{nom}").join((p.name || "").trim())
-        .split("{lots}").join(isNaN(lots) ? "" : String(lots))
-        .split("{commune}").join((p.commune || "").trim())
-        .split("{estimation}").join(estimation);
-    }
-
     function showResult(title, text, summary) {
       result.querySelector("[data-result-title]").textContent = title;
       result.querySelector("[data-result-text]").textContent = text;
@@ -240,20 +207,7 @@
         payload[k] = v;
       });
       payload.consentement = "oui";
-      payload._subject = (d.subject || "Nouvelle demande mäisyndic") +
-        (objet ? " – " + objet.options[objet.selectedIndex].text : "");
-      var reply = buildAutoreply(payload, isQuote ? "devis" : (objet ? objet.value : "devis"));
-      if (reply) {
-        payload._autoresponse = reply;
-      }
-      // Dans l'e-mail reçu, afficher les libellés lisibles (« Essentiel », « Français »…) plutôt que les codes.
-      form.querySelectorAll("select").forEach(function (sel) {
-        if (payload[sel.name] !== undefined && sel.selectedIndex >= 0) {
-          payload[sel.name] = sel.options[sel.selectedIndex].text;
-        }
-      });
-      payload._template = "table";
-      payload._captcha = "false";
+      payload.page_lang = lang;
       fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
