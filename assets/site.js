@@ -13,7 +13,7 @@
   }
 
   var lang = (document.documentElement.getAttribute("lang") || "fr").slice(0, 2);
-  var locales = { fr: "fr-LU", de: "de-LU", en: "en-GB", pt: "pt-PT" };
+  var locales = { fr: "fr-FR", de: "de-LU", en: "en-GB", pt: "pt-PT" };
   var locale = locales[lang] || "fr-LU";
 
   function money(value, decimals) {
