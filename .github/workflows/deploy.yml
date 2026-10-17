@@ -21,6 +21,16 @@ jobs:
       - name: Installer lftp
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
+      - name: Préparer la configuration d'envoi des e-mails (hors du dossier public)
+        env:
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          mkdir -p ../private
+          if [ -n "$SMTP_PASSWORD" ]; then
+            B64=$(printf '%s' "$SMTP_PASSWORD" | base64 -w0)
+            printf "<?php return ['user' => 'contact@maisyndic.lu', 'pass' => base64_decode('%s')];\n" "$B64" > ../private/smtp.php
+          fi
+
       - name: Envoyer le site dans le dossier www (SFTP)
         env:
           LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
@@ -29,3 +39,8 @@ jobs:
           lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
             open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
             mirror --reverse --delete --verbose --exclude-glob .git* --exclude .github/ ./ www/"
+          if [ -f ../private/smtp.php ]; then
+            lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
+              open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
+              mkdir -p data; put ../private/smtp.php -o data/smtp.php; chmod 600 data/smtp.php"
+          fi

@@ -128,16 +128,79 @@ function encode_header(string $s): string
     return mb_encode_mimeheader($s, 'UTF-8', 'B', "\r\n");
 }
 
+/**
+ * Envoi par le serveur SMTP authentifié d'OVH (ssl0.ovh.net) quand le mot de passe
+ * de la boîte est configuré (fichier ../data/smtp.php, écrit par la mise en ligne
+ * à partir du secret GitHub SMTP_PASSWORD). Les e-mails sont alors signés DKIM
+ * par OVH et passent les filtres anti-spam. Sinon, repli sur mail().
+ */
+function smtp_config(): ?array
+{
+    $file = dirname(__DIR__) . '/data/smtp.php';
+    if (!is_file($file)) {
+        return null;
+    }
+    $c = include $file;
+    return (is_array($c) && !empty($c['pass'])) ? $c : null;
+}
+
+function smtp_send(array $c, string $to, string $data): bool
+{
+    $target = $c['target'] ?? 'ssl://ssl0.ovh.net:465';
+    $fp = @stream_socket_client($target, $errno, $errstr, 15);
+    if (!$fp) {
+        return false;
+    }
+    stream_set_timeout($fp, 15);
+    $read = function () use ($fp): string {
+        $out = '';
+        while (($line = fgets($fp, 1024)) !== false) {
+            $out .= $line;
+            if (strlen($line) < 4 || $line[3] === ' ') {
+                break;
+            }
+        }
+        return $out;
+    };
+    $cmd = function (string $line, string $expect) use ($fp, $read): bool {
+        fwrite($fp, $line . "\r\n");
+        return strncmp($read(), $expect, strlen($expect)) === 0;
+    };
+    $ok = strncmp($read(), '220', 3) === 0
+        && $cmd('EHLO maisyndic.lu', '250')
+        && $cmd('AUTH LOGIN', '334')
+        && $cmd(base64_encode($c['user'] ?? TO_ADDRESS), '334')
+        && $cmd(base64_encode($c['pass']), '235')
+        && $cmd('MAIL FROM:<' . TO_ADDRESS . '>', '250')
+        && $cmd('RCPT TO:<' . $to . '>', '25')
+        && $cmd('DATA', '354');
+    if ($ok) {
+        $body = preg_replace('/^\./m', '..', str_replace(["\r\n", "\r", "\n"], ["\n", "\n", "\r\n"], $data));
+        $ok = $cmd($body . "\r\n.", '250');
+    }
+    @fwrite($fp, "QUIT\r\n");
+    fclose($fp);
+    return $ok;
+}
+
 function send_mail(string $to, string $subject, string $body, string $replyTo): bool
 {
     $headers = [
+        'Date: ' . date('r'),
+        'Message-ID: <' . bin2hex(random_bytes(12)) . '@maisyndic.lu>',
         'From: ' . encode_header(FROM_NAME) . ' <' . TO_ADDRESS . '>',
         'Reply-To: ' . $replyTo,
         'MIME-Version: 1.0',
         'Content-Type: text/plain; charset=UTF-8',
         'Content-Transfer-Encoding: 8bit',
-        'X-Mailer: maisyndic.lu',
     ];
+    $c = smtp_config();
+    if ($c !== null) {
+        $data = 'To: ' . $to . "\r\n" . 'Subject: ' . encode_header($subject) . "\r\n" . implode("\r\n", $headers) . "\r\n\r\n" . $body;
+        if (smtp_send($c, $to, $data)) {
+            return true;
+        }
+    }
     return mail($to, encode_header($subject), $body, implode("\r\n", $headers), '-f' . TO_ADDRESS);
 }
 
