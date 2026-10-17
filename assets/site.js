@@ -246,6 +246,12 @@
       if (reply) {
         payload._autoresponse = reply;
       }
+      // Dans l'e-mail reçu, afficher les libellés lisibles (« Essentiel », « Français »…) plutôt que les codes.
+      form.querySelectorAll("select").forEach(function (sel) {
+        if (payload[sel.name] !== undefined && sel.selectedIndex >= 0) {
+          payload[sel.name] = sel.options[sel.selectedIndex].text;
+        }
+      });
       payload._template = "table";
       payload._captcha = "false";
       fetch(endpoint, {
