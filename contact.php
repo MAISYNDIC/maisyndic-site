@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 const TO_ADDRESS = 'contact@maisyndic.lu';
 const FROM_NAME = 'mäisyndic';
-const MAX_PER_HOUR = 5;          // demandes par adresse IP et par heure
+const MAX_PER_HOUR = 20;         // demandes par adresse IP et par heure
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
