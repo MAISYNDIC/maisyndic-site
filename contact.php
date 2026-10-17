@@ -29,6 +29,10 @@ function respond(bool $ok, string $error = '', int $status = 200): void
     // Seule indication renvoyée : le mode d'envoi utilisé (serveur OVH ou secours), sans détail.
     $via = $GLOBALS['via'] ?? [];
     $mode = $via === [] ? null : (in_array('mail', $via, true) ? 'secours' : 'ovh');
+    // Diagnostic temporaire : étape SMTP en échec (libellé neutre, ex. « pass:535 »).
+    if ($mode === 'secours') {
+        $mode .= ' (' . ($GLOBALS['smtp_err'] ?? (smtp_config() === null ? 'sans-config' : '?')) . ')';
+    }
     echo json_encode($ok ? array_filter(['success' => true, 'envoi' => $mode], fn($v) => $v !== null)
         : ['success' => false, 'error' => $error]);
     exit;
