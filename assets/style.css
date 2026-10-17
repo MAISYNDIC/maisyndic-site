@@ -530,3 +530,10 @@ h1, h2, h3, .h1, .h2 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens
   .lp-header .btn-sm { padding: 0 12px; }
   .lp-header-actions { gap: 8px; }
 }
+
+/* ---------- Guides ---------- */
+.guide-layout > .guide { flex: 3 1 520px; }
+.guide-aside { flex: 1 1 280px; position: sticky; top: 96px; }
+.guide .list { display: flex; flex-direction: column; gap: 8px; padding-left: 1.2em; color: var(--fg-2); }
+.guide p + p, .guide p + ul, .guide ul + p { margin-top: 10px; }
+.guide-aside h2 { font-size: 1.4rem; } .guide-aside h3 { font-size: 1.05rem; margin-top: 8px; }
