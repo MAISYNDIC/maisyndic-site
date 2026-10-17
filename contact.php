@@ -26,7 +26,11 @@ function respond(bool $ok, string $error = '', int $status = 200): void
     if (!empty($GLOBALS['via'])) {
         error_log('maisyndic envoi: ' . implode(',', $GLOBALS['via']));
     }
-    echo json_encode($ok ? ['success' => true] : ['success' => false, 'error' => $error]);
+    // Seule indication renvoyée : le mode d'envoi utilisé (serveur OVH ou secours), sans détail.
+    $via = $GLOBALS['via'] ?? [];
+    $mode = $via === [] ? null : (in_array('mail', $via, true) ? 'secours' : 'ovh');
+    echo json_encode($ok ? array_filter(['success' => true, 'envoi' => $mode], fn($v) => $v !== null)
+        : ['success' => false, 'error' => $error]);
     exit;
 }
 
