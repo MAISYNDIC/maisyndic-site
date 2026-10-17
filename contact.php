@@ -301,8 +301,29 @@ function build_quote_documents(string $plan, int $lots, string $lang, string $na
         $vals['sous_titre'] = strtr($meta['sub_filled'], $repl);
         $contracts[] = ['name' => str_replace('{plan}', $p, $meta['file']),
             'data' => ms_contract_pdf($Q, $k, $vals, 'Page {n} sur {t}', $p)];
+        // Traduction informative dans la langue du demandeur (la version française fait foi).
+        $T = $Q['contracts_i18n'][$lang] ?? null;
+        if ($T !== null) {
+            $tm = $T['meta'][$k];
+            $tp = $Q['i18n'][$lang]['plans'][$p]['name'] ?? $pname;
+            $tv = $vals;
+            $tv['mois'] = money($monthly, 2, $lang);
+            $tv['an'] = money($monthly * 12, 2, $lang);
+            $tv['formule_choix'] = $tp;
+            $tv['taux_sinistre'] = $p === 'essentiel' ? $T['values']['taux_sinistre_essentiel'] : '';
+            $tv['sinistre'] = $p === 'essentiel' ? $T['values']['sinistre_essentiel'] : $T['values']['sinistre_serenite'];
+            $tr = ['{residence}' => $res, '{ref}' => $ref, '{date}' => $date, '{formule}' => $tp];
+            $tv['titre'] = strtr($tm['title_filled'], $tr);
+            $tv['sous_titre'] = strtr($tm['sub_filled'], $tr);
+            $tv['ref_line'] = $Q['i18n'][$lang]['ref'] . ' ' . $ref . ' · ' . $date;
+            $contracts[] = ['name' => str_replace('{plan}', $p, $tm['file']),
+                'data' => ms_contract_pdf($Q, $k, $tv, $Q['i18n'][$lang]['page'], $p, [
+                    'syndic' => $T['syndic'], 'benevole' => $T['benevole'], 'meta' => $T['meta'],
+                    'tagline' => $Q['i18n'][$lang]['tagline'], 'sign' => $Q['i18n'][$lang]['sign'] ?? 'Signature:',
+                ])];
+        }
     }
-    $GLOBALS['contract_count'] = count($contracts);
+    $GLOBALS['contract_count'] = count($plans);
 
     return array_merge([['name' => str_replace('{ref}', $ref, $Q['i18n'][$lang]['file']), 'data' => $quote]], $contracts);
 }

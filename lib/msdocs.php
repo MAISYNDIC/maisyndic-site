@@ -231,7 +231,7 @@ class MsPdf extends FPDF
     }
 
     /** Bloc de signatures sur deux colonnes. */
-    public function signatures(array $titles, array $names, array $mentions): void
+    public function signatures(array $titles, array $names, array $mentions, string $signLabel = 'Signature :'): void
     {
         $this->ensureSpace(48);
         $this->Ln(4);
@@ -253,7 +253,7 @@ class MsPdf extends FPDF
             $this->MultiCell(78, 4.3, ms_t($mentions[$i]), 0, 'L');
             $this->SetXY($x + 3, $y + 34);
             $this->SetFont('Helvetica', '', 8);
-            $this->Cell(78, 4, ms_t('Signature :'), 0, 0, 'L');
+            $this->Cell(78, 4, ms_t($signLabel), 0, 0, 'L');
         }
         $this->SetXY(18, $y + 46);
     }
@@ -455,11 +455,15 @@ function ms_quote_pdf(array $D, array $c): string
 /**
  * Le contrat. $kind : 'syndic' | 'benevole' ; $vals : valeurs des balises {clé}.
  */
-function ms_contract_pdf(array $D, string $kind, array $vals, string $pageLabel = 'Page {n} sur {t}', string $plan = ''): string
+/**
+ * $tr : traduction informative (['syndic'=>…, 'benevole'=>…, 'meta'=>…, 'tagline'=>…, 'sign'=>…]) ou [] pour le français.
+ */
+function ms_contract_pdf(array $D, string $kind, array $vals, string $pageLabel = 'Page {n} sur {t}', string $plan = '', array $tr = []): string
 {
+    $blocks = $tr ? $tr[$kind] : $D['contracts'][$kind];
     $pdf = new MsPdf();
     $pdf->logo = __DIR__ . '/logo.jpg';
-    $pdf->footerLine = $D['meta']['company_line'];
+    $pdf->footerLine = $tr ? $tr['meta']['company_line'] : $D['meta']['company_line'];
     $pdf->pageLabel = $pageLabel;
     $map = [];
     foreach ($vals as $k => $v) {
@@ -469,9 +473,16 @@ function ms_contract_pdf(array $D, string $kind, array $vals, string $pageLabel 
     $pdf->runningTitle = $fill('{titre}');
     $pdf->SetTitle($fill('{titre}'), true);
     $pdf->AddPage();
-    $pdf->brandHeader([$vals['ref_line'] ?? '']);
+    $pdf->brandHeader([$vals['ref_line'] ?? ''], '', $tr['tagline'] ?? 'Syndic de copropriété · Luxembourg');
+    if ($tr && !empty($tr['meta']['notice'])) {
+        $pdf->SetFillColor(255, 244, 229);
+        $pdf->SetFont('Helvetica', 'B', 9);
+        $pdf->SetTextColor(122, 58, 6);
+        $pdf->MultiCell(0, 5, ms_t($tr['meta']['notice']), 0, 'L', true);
+        $pdf->Ln(3);
+    }
     $prev = '';
-    foreach ($D['contracts'][$kind] as $b) {
+    foreach ($blocks as $b) {
         [$type, $content] = [$b[0], $b[1]];
         // Bloc propre à une formule : absent du contrat de l'autre formule.
         $only = (isset($b[2]) && is_array($b[2])) ? ($b[2]['only'] ?? '') : '';
@@ -510,7 +521,7 @@ function ms_contract_pdf(array $D, string $kind, array $vals, string $pageLabel 
                     $head = [$head[0], $head[$col]];
                     $rows = array_map(fn($r) => [$r[0], $r[$col]], $rows);
                     // Une prestation absente de la formule (« Non ») n'apparaît pas.
-                    $rows = array_values(array_filter($rows, fn($r) => $r[1] !== 'Non'));
+                    $rows = array_values(array_filter($rows, fn($r) => !in_array($r[1], ['Non', 'Nein', 'No', 'Não'], true)));
                 }
                 if ($plan !== '' && isset($content['planrows'][$plan])) {
                     $rows = [$rows[$content['planrows'][$plan]]];
@@ -518,7 +529,7 @@ function ms_contract_pdf(array $D, string $kind, array $vals, string $pageLabel 
                 $pdf->table($w, array_map($fill, $head), array_map(fn($r) => array_map($fill, $r), $rows));
                 break;
             case 'sign':
-                $pdf->signatures(array_map($fill, $b[1]), array_map($fill, $b[2]), array_map($fill, $b[3]));
+                $pdf->signatures(array_map($fill, $b[1]), array_map($fill, $b[2]), array_map($fill, $b[3]), $tr['sign'] ?? 'Signature :');
                 break;
             case 'pagebreak':
                 $pdf->AddPage();
