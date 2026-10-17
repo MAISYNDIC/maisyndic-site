@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 const TO_ADDRESS = 'contact@maisyndic.lu';
 const FROM_NAME = 'mäisyndic';
-const MAX_PER_HOUR = 20;         // demandes par adresse IP et par heure
+const MAX_PER_HOUR = 5;          // demandes par adresse IP et par heure
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -26,15 +26,7 @@ function respond(bool $ok, string $error = '', int $status = 200): void
     if (!empty($GLOBALS['via'])) {
         error_log('maisyndic envoi: ' . implode(',', $GLOBALS['via']));
     }
-    // Seule indication renvoyée : le mode d'envoi utilisé (serveur OVH ou secours), sans détail.
-    $via = $GLOBALS['via'] ?? [];
-    $mode = $via === [] ? null : (in_array('mail', $via, true) ? 'secours' : 'ovh');
-    // Diagnostic temporaire : étape SMTP en échec (libellé neutre, ex. « pass:535 »).
-    if ($mode === 'secours') {
-        $mode .= ' (' . ($GLOBALS['smtp_err'] ?? (smtp_config() === null ? 'sans-config' : '?')) . ')';
-    }
-    echo json_encode($ok ? array_filter(['success' => true, 'envoi' => $mode], fn($v) => $v !== null)
-        : ['success' => false, 'error' => $error]);
+    echo json_encode($ok ? ['success' => true] : ['success' => false, 'error' => $error]);
     exit;
 }
 
