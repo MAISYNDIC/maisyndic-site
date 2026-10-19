@@ -1,0 +1,18 @@
+# Envoi ponctuel des courriers de prospection depuis contact@maisyndic.lu.
+# Se déclenche uniquement sur la branche « outreach » ; le mot de passe reste dans le secret SMTP_PASSWORD.
+name: Envoi des courriers
+on:
+  push:
+    branches: [outreach]
+concurrency:
+  group: outreach
+  cancel-in-progress: false
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Envoyer les e-mails
+        env:
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: python3 send.py
