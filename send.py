@@ -30,6 +30,7 @@ def sent_folder(imap):
 
 failed = 0
 for m in msgs:
+    time.sleep(4)
     msg = EmailMessage()
     msg["From"] = formataddr(("mäisyndic", USER))
     msg["To"] = m["to"]
