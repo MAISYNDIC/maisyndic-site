@@ -19,17 +19,17 @@
   var langs = navigator.languages || [navigator.language || "fr"];
   for (var i = 0; i < langs.length; i++) {
     var l = (langs[i] || "").slice(0, 2).toLowerCase();
-    if (supported.indexOf(l) !== -1) { location.replace(l + "/index.html"); return; }
+    if (supported.indexOf(l) !== -1) { location.replace(l + "/"); return; }
   }
-  location.replace("fr/index.html");
+  location.replace("fr/");
 })();
 </script>
 </head>
 <body>
 <main class="band"><div class="wrap stack">
-<a class="brand" href="fr/index.html"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect class="logo-body" x="18" y="2" width="11" height="11" rx="3"/><rect class="logo-body" x="35" y="2" width="11" height="11" rx="3"/><rect class="logo-body" x="4" y="16" width="56" height="46" rx="14"/><rect class="logo-win" x="17" y="29" width="11" height="10" rx="2"/><rect class="logo-win" x="36" y="29" width="11" height="10" rx="2"/><rect class="logo-win" x="27" y="46" width="10" height="16" rx="2"/></svg><span class="wordmark"><b>mäi</b>syndic</span></a>
+<a class="brand" href="fr/"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect class="logo-body" x="18" y="2" width="11" height="11" rx="3"/><rect class="logo-body" x="35" y="2" width="11" height="11" rx="3"/><rect class="logo-body" x="4" y="16" width="56" height="46" rx="14"/><rect class="logo-win" x="17" y="29" width="11" height="10" rx="2"/><rect class="logo-win" x="36" y="29" width="11" height="10" rx="2"/><rect class="logo-win" x="27" y="46" width="10" height="16" rx="2"/></svg><span class="wordmark"><b>mäi</b>syndic</span></a>
 <h1 class="h2">mäisyndic – Syndic de copropriété au Luxembourg</h1>
-<div class="lang-cards"><a class="lang-card" href="fr/index.html" hreflang="fr" lang="fr"><strong>Français</strong><span>Choisissez votre langue</span></a><a class="lang-card" href="de/index.html" hreflang="de" lang="de"><strong>Deutsch</strong><span>Wählen Sie Ihre Sprache</span></a><a class="lang-card" href="en/index.html" hreflang="en" lang="en"><strong>English</strong><span>Choose your language</span></a><a class="lang-card" href="pt/index.html" hreflang="pt" lang="pt"><strong>Português</strong><span>Escolha a sua língua</span></a></div>
+<div class="lang-cards"><a class="lang-card" href="fr/" hreflang="fr" lang="fr"><strong>Français</strong><span>Choisissez votre langue</span></a><a class="lang-card" href="de/" hreflang="de" lang="de"><strong>Deutsch</strong><span>Wählen Sie Ihre Sprache</span></a><a class="lang-card" href="en/" hreflang="en" lang="en"><strong>English</strong><span>Choose your language</span></a><a class="lang-card" href="pt/" hreflang="pt" lang="pt"><strong>Português</strong><span>Escolha a sua língua</span></a></div>
 </div></main>
 </body>
 </html>
