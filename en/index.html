@@ -27,6 +27,8 @@
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/style.css?v=cc6edec2">
+<link rel="stylesheet" href="../assets/home.css?v=1">
+<link rel="preload" href="../assets/hero/f001.webp" as="image" type="image/webp">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "mäisyndic", "url": "https://maisyndic.lu", "logo": "https://maisyndic.lu/assets/social/maisyndic-logo.jpg", "email": "contact@maisyndic.lu", "image": "https://maisyndic.lu/assets/social/maisyndic-cover.jpg", "telephone": "+33 6 20 83 92 54", "address": {"@type": "PostalAddress", "streetAddress": "51 rue de Strasbourg", "postalCode": "L-2561", "addressLocality": "Luxembourg", "addressCountry": "LU"}, "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "12:00"}, {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "14:00", "closes": "18:00"}], "parentOrganization": {"@type": "Organization", "name": "BUSINESS EVOLUTION SARL", "vatID": "LU32737432"}, "sameAs": ["https://maps.google.com/?cid=1037492596921434007", "https://www.facebook.com/61587332966388"], "knowsAbout": ["Syndic de copropriété", "Fonds de travaux", "Assemblée générale de copropriété"], "priceRange": "€", "areaServed": {"@type": "Country", "name": "Luxembourg"}, "availableLanguage": ["fr", "de", "en", "pt"], "slogan": "kloer a fair."}</script>
 </head>
 <body>
@@ -47,32 +49,46 @@
 </header>
 <main id="main">
 
-<section class="hero"><div class="wrap hero-row">
-<div class="hero-text">
-<span class="pill"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M10 2l7 2.6v5c0 4.3-2.9 7.5-7 8.9-4.1-1.4-7-4.6-7-8.9v-5z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M6.8 10.2l2.2 2.2 4.3-4.4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Licensed professional syndic in Luxembourg</span>
-<h1>Your building, clearly managed. And for less.</h1>
-<p class="lead">mäisyndic is the online syndic built for small and medium co-ownerships in Luxembourg: a local team, a portal open 24/7 and a clear price with no nasty surprises.</p>
-<p class="langs-line">Notices, accounts and answers in <strong>français, Deutsch, English or português</strong>.</p>
+<section class="mx-hero" id="mx-hero" aria-labelledby="mx-title">
+<div class="mx-stage">
+<canvas id="mx-hero-canvas" aria-hidden="true"></canvas>
+<div class="mx-hero-copy wrap">
+<span class="mx-eyebrow">Licensed professional syndic · Luxembourg</span>
+<h1 id="mx-title">A syndic that replies. <b>Accounts that make sense.</b></h1>
+<p class="lead">mäisyndic manages small and medium co-ownerships in Luxembourg: a local team, your accounts online 24/7 and published prices, extras included.</p>
 <div class="actions"><a class="btn btn-primary btn-lg" href="tarifs.html#calcul">Calculate my price<svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn-secondary btn-lg" href="contact.html">Get a quote</a></div>
-<ul class="checks-inline"><li><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>All our prices published, no exceptions</li><li><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Reply guaranteed within 48 working hours</li><li><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Free handover if the accounts are up to date</li></ul>
+<ul class="mx-proofs"><li><b>48</b> working hours to reply, guaranteed by contract</li><li><b>All</b> our prices published, no exceptions</li><li><b>4</b> languages: FR · DE · EN · PT</li></ul>
+<span class="mx-hint" aria-hidden="true"><span></span>Scroll</span>
 </div>
-<div class="hero-visual"><div class="mock" role="img" aria-label="Example : Résidence Les Tilleuls">
-<div class="mock-head"><div><strong>Résidence Les Tilleuls</strong><small>Esch-sur-Alzette · 9 units</small></div><span class="badge badge--accent">Account up to date</span></div>
-<div class="mock-body">
-<span class="mock-tag">Example</span>
-<div class="mock-tiles">
-<div class="mock-tile"><div class="k">Your balance</div><div class="v">€0.00</div></div>
-<div class="mock-tile"><div class="k">Next meeting</div><div class="v small">Tue 9 March, 4 pm</div><div class="s">Notice in FR · PT</div></div>
+<div class="mx-hero-end wrap" aria-hidden="true">
+<span class="mx-eyebrow">Example residence · 9 units</span>
+<h2>Nine homes. <b>One point of contact.</b></h2>
+<p class="lead">A manager who knows the building, its accounts and its history.</p>
 </div>
-<div><div class="row-between"><strong>Works fund</strong><span class="muted">€18,450 of €30,000</span></div><div class="bar"><span></span></div></div>
-<div><div class="row-between"><strong>Latest documents</strong></div><ul class="mock-docs" style="margin-top:8px"><li><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M5 2h7l4 4v12H5z M12 2v4h4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>2025 service charge statement</li><li><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M5 2h7l4 4v12H5z M12 2v4h4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>2026 general meeting minutes</li><li><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M5 2h7l4 4v12H5z M12 2v4h4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>Lift maintenance contract</li></ul></div>
-<div class="mock-alert"><span><strong>Entrance hall lighting</strong> · repair on Thursday</span><span class="badge badge--warm">Scheduled</span></div>
-</div></div></div>
-</div></section>
+<p class="mx-note">AI-generated illustrative model</p>
+<div class="mx-fade" aria-hidden="true"></div>
+</div>
+</section>
+
+<section class="mx-story" id="mx-story" aria-label="Your building as a 3D model">
+<div class="mx-stage">
+<canvas id="mx-scene" aria-hidden="true"></canvas>
+<div class="mx-labels" id="mx-labels" aria-hidden="true"></div>
+<div class="mx-fallback" id="mx-fallback" hidden><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="18" y="2" width="11" height="11" rx="3" fill="currentColor"/><rect x="35" y="2" width="11" height="11" rx="3" fill="currentColor"/><rect x="4" y="16" width="56" height="46" rx="14" fill="currentColor"/><rect x="17" y="29" width="11" height="10" rx="2" fill="var(--mx-warm)"/><rect x="36" y="29" width="11" height="10" rx="2" fill="var(--mx-warm)"/><rect x="27" y="46" width="10" height="16" rx="2" fill="var(--mx-warm)"/></svg></div>
+</div>
+<div class="mx-chapters">
+<article class="mx-chapter" id="mx-proximite"><div class="wrap"><div class="mx-copy"><span class="mx-eyebrow">Close by</span><h2>Online, <b>but never far away.</b></h2><p>Digital tools save us time on admin. We spend that time in your buildings: an annual inspection included, attendance at your general meeting and an office at 51 rue de Strasbourg, Luxembourg. Also reachable by phone on +33&nbsp;6&nbsp;20&nbsp;83&nbsp;92&nbsp;54.</p></div></div></article>
+<article class="mx-chapter" id="mx-lots"><div class="wrap"><div class="mx-copy"><span class="mx-eyebrow">Units and shares</span><h2>Six units or sixty, <b>the same care.</b></h2><p>Annual meeting, accounts, insurance, a works fund compulsory since 1&nbsp;August&nbsp;2023: a small co-ownership has the same duties as a large residence. We follow every unit and every share.</p><ul class="mx-chips mx-legend"><li>Private units</li><li class="is-common">Common parts</li></ul></div></div></article>
+<article class="mx-chapter" id="mx-espace"><div class="wrap"><div class="mx-copy"><span class="mx-eyebrow">Owner portal</span><h2>The whole building <b>in everyone's pocket.</b></h2><p>Balance, calls for funds, minutes, invoices with their receipts: every owner checks their account at any time, in their own language. A leak, a broken light? Report it in 30 seconds, with a photo.</p><ul class="mx-chips"><li>Real-time accounts</li><li>Organised documents</li><li>Report with a photo</li></ul></div></div></article>
+<article class="mx-chapter" id="mx-prix"><div class="wrap"><div class="mx-copy"><span class="mx-eyebrow">Published prices</span><h2>The price is on the website. <b>The contract comes with the quote.</b></h2><div class="mx-price"><strong>€24.90<small>excl. VAT</small></strong><span>per home per month, Essential plan, 2–10 homes · minimum €159 per month per building</span></div><p>No opaque flat fee and no surprise lines on the statement. The price drops as the building grows, and cellars and parking spaces are free if they belong to the owner of a flat in the building.</p><a class="more" href="#formules">See the three plans<svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></article>
+</div>
+</section>
+<nav class="mx-timeline" id="mx-timeline" aria-label="Model progress"><a href="#mx-proximite" data-ch="0"><span>01 Building</span><i><b></b></i></a><a href="#mx-lots" data-ch="1"><span>02 Units</span><i><b></b></i></a><a href="#mx-espace" data-ch="2"><span>03 Portal</span><i><b></b></i></a><a href="#mx-prix" data-ch="3"><span>04 Price</span><i><b></b></i></a></nav>
+
 
 <section class="band"><div class="wrap stack"><div class="section-head"><span class="eyebrow">The situation</span><h2>Small buildings, big obligations.</h2><p class="lead">Many co-ownerships in Luxembourg have only around ten flats. They have the same obligations as large residences, without the same means.</p></div><div class="cards"><div class="card"><h3>The works fund is mandatory</h3><p>Since 1 August 2023, every co-ownership must pay into it each year. Calculation, calls for funds, tracking per unit: we handle it.</p></div><div class="card"><h3>Small buildings are often neglected</h3><p>High minimum fees, slow replies, extra charges. At mäisyndic, a 6-unit building gets the same care as a 60-unit one.</p></div><div class="card"><h3>Being a volunteer syndic is a second job</h3><p>Bookkeeping, notices, reminders, insurance… We take it all over, or support you if you want to stay syndic.</p></div></div></div></section>
 
-<section class="band band-soft"><div class="wrap stack"><div class="section-head"><span class="eyebrow">Plans and prices</span><h2>Three plans. One clear price per home and per month.</h2><p class="lead">All our prices are published on this site, extras included, and you receive our contract with the quote. No surprise lines on the statement.</p></div><div class="plans"><article class="plan plan--warm">
+<section class="band band-soft" id="formules"><div class="wrap stack"><div class="section-head"><span class="eyebrow">Plans and prices</span><h2>Three plans. One clear price per home and per month.</h2><p class="lead">All our prices are published on this site, extras included, and you receive our contract with the quote. No surprise lines on the statement.</p></div><div class="plans"><article class="plan plan--warm">
 <span class="badge badge--warm">Buildings up to 9 flats</span>
 <h3>Volunteer+</h3>
 <p class="plan-desc">You stay the volunteer syndic, we do the paperwork.</p>
@@ -104,7 +120,6 @@
 
 <section class="band band-soft"><div class="wrap stack"><div class="section-head"><span class="eyebrow">Compare</span><h2>The best of both worlds.</h2></div><div class="table-scroll"><table class="compare"><thead><tr><th scope="col"><span class="sr-only">Criterion</span></th><th scope="col">Traditional syndic</th><th scope="col" class="ours">mäisyndic</th><th scope="col">Volunteer syndic alone</th></tr></thead><tbody><tr><th scope="row">Price for a small building</th><td>Often a high minimum fee</td><td class="ours">Published price per home, from €159 a month</td><td>Free, but takes a lot of time</td></tr><tr><th scope="row">Fees on top of the plan</th><td>Frequent, rarely published</td><td class="ours">All published on this site</td><td>None</td></tr><tr><th scope="row">Response time</th><td>Varies</td><td class="ours">48 working hours, guaranteed by contract</td><td>Depends on availability</td></tr><tr><th scope="row">Languages</th><td>One or two</td><td class="ours">FR · DE · EN · PT</td><td>The volunteer's</td></tr><tr><th scope="row">Accounts available online</th><td>Sometimes</td><td class="ours">In real time, with invoices</td><td>Rarely</td></tr><tr><th scope="row">Professional guarantees</th><td>Yes</td><td class="ours">Yes</td><td>No</td></tr></tbody></table></div></div></section>
 
-<section class="band"><div class="wrap split"><div class="section-head"><span class="eyebrow">Close by</span><h2>Online, but never far away.</h2><p class="lead">Digital tools save us time on admin. We spend that time in your buildings and with your owners' council.</p></div><ul class="facts"><li><svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M10 18s6-5.3 6-9.8A6 6 0 004 8.2C4 12.7 10 18 10 18z" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="10" cy="8.2" r="2.2" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><span>Office in Luxembourg: 51 rue de Strasbourg, L-2561 Luxembourg</span></li><li><svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" class="icon"><circle cx="7" cy="7" r="2.8" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="14" cy="8" r="2.3" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 17c.8-3 2.8-4.6 5-4.6s4.2 1.6 5 4.6M12.5 12.6c2.3-.2 4.4 1.1 5.3 4.1" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg><span>Present at your annual general meeting</span></li><li><svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M3 17.5V8.5l7-5.5 7 5.5v9z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M8 17.5v-5h4v5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg><span>Annual building inspection included</span></li><li><svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4.5 2.5h3.2l1.3 4-2.1 1.3a9.5 9.5 0 004.3 4.3l1.3-2.1 4 1.3v3.2a1.8 1.8 0 01-1.8 1.8A13.7 13.7 0 012.7 4.3 1.8 1.8 0 014.5 2.5z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg><span>Reachable by phone: +33 6 20 83 92 54</span></li></ul></div></section>
 
 <section class="band band-soft" aria-labelledby="sell-title"><div class="wrap">
 <div class="sell">
@@ -155,6 +170,9 @@
 <span><a href="../fr/" hreflang="fr" lang="fr">Français</a> · <a href="../de/" hreflang="de" lang="de">Deutsch</a> · <a href="../en/" hreflang="en" lang="en">English</a> · <a href="../pt/" hreflang="pt" lang="pt">Português</a></span>
 </div>
 </footer>
+<script type="importmap">{"imports": {"three": "../assets/vendor/three/build/three.module.min.js", "three/addons/": "../assets/vendor/three/examples/jsm/"}}</script>
+<script type="application/json" id="mx-i18n">{"labels": [{"t": "Ground floor", "s": "Entrance hall and cellars", "m": "Common parts", "common": true}, {"t": "1st floor", "s": "Units 1 and 2", "m": "200/1000"}, {"t": "2nd floor", "s": "Units 3 and 4", "m": "204/1000"}, {"t": "3rd floor", "s": "Units 5 and 6", "m": "208/1000"}, {"t": "4th floor", "s": "Units 7 and 8", "m": "212/1000"}, {"t": "Attic", "s": "Unit 9, duplex", "m": "176/1000"}], "screen": {"example": "Example", "residence": "Résidence Les Tilleuls", "sub": "Esch-sur-Alzette · 9 units", "status": "Account up to date", "balanceK": "Your balance", "balanceV": "€0.00", "agK": "Next meeting", "agV": "Tue 9 March, 4 pm", "agS": "Notice in FR · PT", "fundK": "Works fund", "fundV": "€18,450 of €30,000", "docsK": "Latest documents", "docs": ["2025 service charge statement", "2026 general meeting minutes", "Lift maintenance contract"], "alert": "Entrance hall lighting · repair on Thursday"}}</script>
+<script src="../assets/home.js?v=1" defer></script>
 <script src="../assets/site.js?v=cc6edec2" defer></script>
 </body>
 </html>
