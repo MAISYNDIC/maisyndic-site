@@ -10,6 +10,7 @@
   --mx-pill: rgba(255, 255, 255, 0.72);
   --mx-glass: rgba(242, 246, 249, 0.86);
   --mx-scheme: light;
+  --mx-link: #08467A;
   --mx-top: 65px;
 }
 @media (prefers-color-scheme: dark) {
@@ -20,9 +21,11 @@
     --mx-pill: rgba(21, 35, 47, 0.78);
     --mx-glass: rgba(11, 20, 28, 0.78);
     --mx-scheme: dark;
+    --mx-link: #84BCEE;
   }
 }
 :root[data-theme="dark"] {
+  --mx-link: #84BCEE;
   --mx-warm: #FF9A3D;
   --mx-studio: #0B141C;
   --mx-studio-fg-2: #B7C5D1;
@@ -102,7 +105,7 @@
 .mx-price strong { font-size: clamp(3rem, 2rem + 3vw, 4.4rem); font-weight: 300; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--fg); }
 .mx-price strong small { font-size: 0.3em; font-weight: 500; letter-spacing: 0; color: var(--fg-2); margin-left: 8px; }
 .mx-price span { font-size: var(--step--1); color: var(--fg-2); }
-.mx-copy .more { justify-self: start; }
+.mx-copy .more { justify-self: start; color: var(--mx-link); }
 
 .mx-timeline {
   position: fixed; z-index: 40; display: flex; gap: 16px;

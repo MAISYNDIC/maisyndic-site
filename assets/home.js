@@ -19,7 +19,8 @@
   syncTop();
 
   /* ---------- 1. Haut de page : images de la vidéo, en boucle puis au défilement ---------- */
-  var FRAMES = 121, base = new URL("hero/", scriptSrc).href;
+  /* Téléphones : une série d'images plus légères (720 px de large au lieu de 1280) */
+  var FRAMES = 121, base = new URL(window.innerWidth <= 860 ? "hero-m/" : "hero/", scriptSrc).href;
   var canvas = document.getElementById("mx-hero-canvas");
   var ctx = canvas.getContext("2d");
   var heroCopy = hero.querySelector(".mx-hero-copy");
@@ -73,7 +74,8 @@
   }
   function rgba(c, a) { return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")"; }
   function size() {
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    /* La vidéo est en 720p : au-delà de 1,5 pixel par point, le navigateur dessinerait plus sans gagner en netteté */
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(canvas.clientWidth * dpr);
     canvas.height = Math.round(canvas.clientHeight * dpr);
     shown = -1;
@@ -86,7 +88,8 @@
       /* Hauteur pleine, l'immeuble à droite du texte ; la bande libre reprend la couleur du studio */
       var s = Math.max(H / ih, (W * 0.62) / iw), dw = iw * s, dh = ih * s;
       var dx = Math.min(W * 0.64 - dw / 2, W * 0.42), dy = (H - dh) / 2;
-      var L = sample(img, 1, 3, 1, 10), R = sample(img, 30, 3, 1, 10);
+      if (!img._lr) img._lr = [sample(img, 1, 3, 1, 10), sample(img, 30, 3, 1, 10)];
+      var L = img._lr[0], R = img._lr[1];
       ctx.fillStyle = rgba(L, 1); ctx.fillRect(0, 0, W, H);
       ctx.drawImage(img, dx, dy, dw, dh);
       if (dx > 0) {
@@ -103,7 +106,8 @@
       return;
     }
     /* Téléphone : l'image en haut, fondue dans la couleur du studio vers le texte */
-    var top = sample(img, 0, 0, 5, 1), bot = sample(img, 0, 17, 5, 1);
+    if (!img._tb) img._tb = [sample(img, 0, 0, 5, 1), sample(img, 0, 17, 5, 1)];
+    var top = img._tb[0], bot = img._tb[1];
     var s2 = Math.max((W * 1.62) / iw, (H * 0.44) / ih), w2 = iw * s2, h2 = ih * s2;
     var x2 = (W - w2) / 2, y2 = Math.max(H * 0.04, H * 0.3 - h2 / 2);
     ctx.fillStyle = rgba(top, 1); ctx.fillRect(0, 0, W, y2 + 2);
@@ -170,6 +174,8 @@
     copies.forEach(function (el) {
       var r = el.getBoundingClientRect();
       var d = (r.top + r.height / 2 - vh / 2) / vh;
+      /* Seuls les textes proches de l'écran s'estompent ; les autres gardent leur plein contraste */
+      if (Math.abs(d) > 1.4) { el.style.opacity = ""; el.style.transform = ""; return; }
       var o = 1 - Math.min(1, Math.max(0, Math.abs(d) - 0.2) * 1.7);
       el.style.opacity = (0.12 + 0.88 * o).toFixed(3);
       if (!reduced) el.style.transform = "translateY(" + (d * 46).toFixed(1) + "px)";
@@ -188,13 +194,16 @@
   function load3d() {
     if (requested) return;
     requested = true;
-    import(new URL("home-3d.js?v=3", scriptSrc).href).catch(function () { if (fallback) fallback.hidden = false; });
+    var go = function () {
+      import(new URL("home-3d.js?v=4", scriptSrc).href).catch(function () { if (fallback) fallback.hidden = false; });
+    };
+    if ("requestIdleCallback" in window) window.requestIdleCallback(go, { timeout: 800 }); else setTimeout(go, 50);
     setTimeout(function () { if (!window.__mxSceneReady && fallback) fallback.hidden = false; }, 12000);
   }
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (en) {
       if (en[0].isIntersecting) { load3d(); io.disconnect(); }
-    }, { rootMargin: "900px 0px" });
+    }, { rootMargin: "350px 0px" });
     io.observe(storyEl);
   } else {
     load3d();
