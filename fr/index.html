@@ -27,6 +27,8 @@
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/style.css?v=cc6edec2">
+<link rel="stylesheet" href="../assets/home.css?v=1">
+<link rel="preload" href="../assets/hero/f001.webp" as="image" type="image/webp">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "mäisyndic", "url": "https://maisyndic.lu", "logo": "https://maisyndic.lu/assets/social/maisyndic-logo.jpg", "email": "contact@maisyndic.lu", "image": "https://maisyndic.lu/assets/social/maisyndic-cover.jpg", "telephone": "+33 6 20 83 92 54", "address": {"@type": "PostalAddress", "streetAddress": "51 rue de Strasbourg", "postalCode": "L-2561", "addressLocality": "Luxembourg", "addressCountry": "LU"}, "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "12:00"}, {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "14:00", "closes": "18:00"}], "parentOrganization": {"@type": "Organization", "name": "BUSINESS EVOLUTION SARL", "vatID": "LU32737432"}, "sameAs": ["https://maps.google.com/?cid=1037492596921434007", "https://www.facebook.com/61587332966388"], "knowsAbout": ["Syndic de copropriété", "Fonds de travaux", "Assemblée générale de copropriété"], "priceRange": "€", "areaServed": {"@type": "Country", "name": "Luxembourg"}, "availableLanguage": ["fr", "de", "en", "pt"], "slogan": "kloer a fair."}</script>
 </head>
 <body>
@@ -47,32 +49,46 @@
 </header>
 <main id="main">
 
-<section class="hero"><div class="wrap hero-row">
-<div class="hero-text">
-<span class="pill"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M10 2l7 2.6v5c0 4.3-2.9 7.5-7 8.9-4.1-1.4-7-4.6-7-8.9v-5z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M6.8 10.2l2.2 2.2 4.3-4.4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Syndic professionnel agréé au Luxembourg</span>
-<h1>Votre copropriété, gérée clairement. Et pour moins cher.</h1>
-<p class="lead">mäisyndic est le syndic en ligne pensé pour les petites et moyennes copropriétés du Luxembourg : une équipe locale, un espace ouvert 24&nbsp;h/24 et un prix clair, sans mauvaise surprise.</p>
-<p class="langs-line">Convocations, comptes et réponses en <strong>français, Deutsch, English ou português</strong>.</p>
+<section class="mx-hero" id="mx-hero" aria-labelledby="mx-title">
+<div class="mx-stage">
+<canvas id="mx-hero-canvas" aria-hidden="true"></canvas>
+<div class="mx-hero-copy wrap">
+<span class="mx-eyebrow">Syndic professionnel agréé · Luxembourg</span>
+<h1 id="mx-title">Un syndic qui répond. <b>Des comptes qu'on comprend.</b></h1>
+<p class="lead">mäisyndic gère les petites et moyennes copropriétés du Luxembourg : une équipe sur place, vos comptes en ligne 24&nbsp;h/24 et des prix publiés, suppléments compris.</p>
 <div class="actions"><a class="btn btn-primary btn-lg" href="tarifs.html#calcul">Calculer mon prix<svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn-secondary btn-lg" href="contact.html">Demander un devis</a></div>
-<ul class="checks-inline"><li><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Tous nos prix publiés, sans exception</li><li><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Réponse garantie sous 48&nbsp;h ouvrées</li><li><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Reprise offerte si les comptes sont à jour</li></ul>
+<ul class="mx-proofs"><li><b>48&nbsp;h</b> ouvrées pour vous répondre, garanti par contrat</li><li><b>Tous</b> nos prix publiés, sans exception</li><li><b>4</b> langues : FR · DE · EN · PT</li></ul>
+<span class="mx-hint" aria-hidden="true"><span></span>Faites défiler</span>
 </div>
-<div class="hero-visual"><div class="mock" role="img" aria-label="Exemple : Résidence Les Tilleuls">
-<div class="mock-head"><div><strong>Résidence Les Tilleuls</strong><small>Esch-sur-Alzette · 9 lots</small></div><span class="badge badge--accent">Compte à jour</span></div>
-<div class="mock-body">
-<span class="mock-tag">Exemple</span>
-<div class="mock-tiles">
-<div class="mock-tile"><div class="k">Votre solde</div><div class="v">0,00 €</div></div>
-<div class="mock-tile"><div class="k">Prochaine AG</div><div class="v small">Mar. 9 mars, 16 h</div><div class="s">Convocation FR · PT</div></div>
+<div class="mx-hero-end wrap" aria-hidden="true">
+<span class="mx-eyebrow">Résidence d'exemple · 9 lots</span>
+<h2>Neuf foyers. <b>Un seul interlocuteur.</b></h2>
+<p class="lead">Un gestionnaire qui connaît l'immeuble, ses comptes et son histoire.</p>
 </div>
-<div><div class="row-between"><strong>Fonds de travaux</strong><span class="muted">18 450 € sur 30 000 €</span></div><div class="bar"><span></span></div></div>
-<div><div class="row-between"><strong>Derniers documents</strong></div><ul class="mock-docs" style="margin-top:8px"><li><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M5 2h7l4 4v12H5z M12 2v4h4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>Décompte des charges 2025</li><li><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M5 2h7l4 4v12H5z M12 2v4h4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>Procès-verbal de l'AG 2026</li><li><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M5 2h7l4 4v12H5z M12 2v4h4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>Contrat d'entretien de l'ascenseur</li></ul></div>
-<div class="mock-alert"><span><strong>Éclairage du hall</strong> · intervention jeudi</span><span class="badge badge--warm">Planifié</span></div>
-</div></div></div>
-</div></section>
+<p class="mx-note">Maquette d'illustration générée par IA</p>
+<div class="mx-fade" aria-hidden="true"></div>
+</div>
+</section>
+
+<section class="mx-story" id="mx-story" aria-label="Votre immeuble en maquette 3D">
+<div class="mx-stage">
+<canvas id="mx-scene" aria-hidden="true"></canvas>
+<div class="mx-labels" id="mx-labels" aria-hidden="true"></div>
+<div class="mx-fallback" id="mx-fallback" hidden><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="18" y="2" width="11" height="11" rx="3" fill="currentColor"/><rect x="35" y="2" width="11" height="11" rx="3" fill="currentColor"/><rect x="4" y="16" width="56" height="46" rx="14" fill="currentColor"/><rect x="17" y="29" width="11" height="10" rx="2" fill="var(--mx-warm)"/><rect x="36" y="29" width="11" height="10" rx="2" fill="var(--mx-warm)"/><rect x="27" y="46" width="10" height="16" rx="2" fill="var(--mx-warm)"/></svg></div>
+</div>
+<div class="mx-chapters">
+<article class="mx-chapter" id="mx-proximite"><div class="wrap"><div class="mx-copy"><span class="mx-eyebrow">Proximité</span><h2>En ligne, <b>mais jamais loin.</b></h2><p>Le numérique nous fait gagner du temps sur l'administratif. Ce temps, nous le passons dans vos immeubles : visite annuelle incluse, présence à votre assemblée générale et un bureau au 51 rue de Strasbourg, à Luxembourg. Joignable aussi par téléphone au +33&nbsp;6&nbsp;20&nbsp;83&nbsp;92&nbsp;54.</p></div></div></article>
+<article class="mx-chapter" id="mx-lots"><div class="wrap"><div class="mx-copy"><span class="mx-eyebrow">Lots et quotes-parts</span><h2>Six lots ou soixante, <b>le même soin.</b></h2><p>Assemblée annuelle, comptes, assurances, fonds de travaux obligatoire depuis le 1<sup>er</sup>&nbsp;août&nbsp;2023 : une petite copropriété a les mêmes devoirs qu'une grande résidence. Nous suivons chaque lot et chaque quote-part.</p><ul class="mx-chips mx-legend"><li>Lots privatifs</li><li class="is-common">Parties communes</li></ul></div></div></article>
+<article class="mx-chapter" id="mx-espace"><div class="wrap"><div class="mx-copy"><span class="mx-eyebrow">Espace copropriétaire</span><h2>Tout l'immeuble <b>dans la poche de chacun.</b></h2><p>Solde, appels de fonds, procès-verbaux, factures avec leur pièce jointe : chaque copropriétaire consulte son compte à toute heure, dans sa langue. Une fuite, une lampe en panne ? On la signale en 30 secondes, photo à l'appui.</p><ul class="mx-chips"><li>Comptes en temps réel</li><li>Documents classés</li><li>Signalement avec photo</li></ul></div></div></article>
+<article class="mx-chapter" id="mx-prix"><div class="wrap"><div class="mx-copy"><span class="mx-eyebrow">Des prix publiés</span><h2>Le prix est sur le site. <b>Le contrat, avec le devis.</b></h2><div class="mx-price"><strong>24,90&nbsp;€<small>HTVA</small></strong><span>par logement et par mois, formule Essentiel, de 2 à 10 logements · minimum 159&nbsp;€ par mois et par immeuble</span></div><p>Pas de forfait opaque ni de ligne surprise sur le décompte. Le prix baisse avec la taille de l'immeuble, et les caves et parkings sont gratuits s'ils appartiennent au propriétaire d'un logement.</p><a class="more" href="#formules">Voir les trois formules<svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div></article>
+</div>
+</section>
+<nav class="mx-timeline" id="mx-timeline" aria-label="Progression de la maquette"><a href="#mx-proximite" data-ch="0"><span>01 Immeuble</span><i><b></b></i></a><a href="#mx-lots" data-ch="1"><span>02 Lots</span><i><b></b></i></a><a href="#mx-espace" data-ch="2"><span>03 Espace</span><i><b></b></i></a><a href="#mx-prix" data-ch="3"><span>04 Prix</span><i><b></b></i></a></nav>
+
 
 <section class="band"><div class="wrap stack"><div class="section-head"><span class="eyebrow">Le constat</span><h2>Petits immeubles, grandes obligations.</h2><p class="lead">Beaucoup de copropriétés au Luxembourg ne comptent qu'une dizaine d'appartements. Elles ont les mêmes obligations que les grandes résidences, sans en avoir les moyens.</p></div><div class="cards"><div class="card"><h3>Le fonds de travaux est obligatoire</h3><p>Depuis le 1er août 2023, chaque copropriété doit l'alimenter chaque année. Calcul, appels de fonds, suivi par lot : nous nous en chargeons.</p></div><div class="card"><h3>Les petits immeubles sont souvent délaissés</h3><p>Forfaits minimum élevés, réponses lentes, frais en plus. Chez mäisyndic, une copropriété de 6 lots est suivie avec le même soin qu'une de 60.</p></div><div class="card"><h3>Être syndic bénévole, c'est un deuxième métier</h3><p>Comptabilité, convocations, relances, assurances… Nous reprenons tout, ou nous vous épaulons si vous souhaitez rester syndic.</p></div></div></div></section>
 
-<section class="band band-soft"><div class="wrap stack"><div class="section-head"><span class="eyebrow">Offres et tarifs</span><h2>Trois formules. Un prix clair, par logement et par mois.</h2><p class="lead">Tous nos prix sont publiés sur ce site, suppléments compris, et notre contrat vous est remis avec le devis. Pas de ligne surprise sur le décompte.</p></div><div class="plans"><article class="plan plan--warm">
+<section class="band band-soft" id="formules"><div class="wrap stack"><div class="section-head"><span class="eyebrow">Offres et tarifs</span><h2>Trois formules. Un prix clair, par logement et par mois.</h2><p class="lead">Tous nos prix sont publiés sur ce site, suppléments compris, et notre contrat vous est remis avec le devis. Pas de ligne surprise sur le décompte.</p></div><div class="plans"><article class="plan plan--warm">
 <span class="badge badge--warm">Immeubles jusqu'à 9 logements</span>
 <h3>Bénévole+</h3>
 <p class="plan-desc">Vous restez syndic bénévole, nous faisons l'administratif.</p>
@@ -104,7 +120,6 @@
 
 <section class="band band-soft"><div class="wrap stack"><div class="section-head"><span class="eyebrow">Comparez</span><h2>Le meilleur des deux mondes.</h2></div><div class="table-scroll"><table class="compare"><thead><tr><th scope="col"><span class="sr-only">Critère</span></th><th scope="col">Syndic classique</th><th scope="col" class="ours">mäisyndic</th><th scope="col">Syndic bénévole seul</th></tr></thead><tbody><tr><th scope="row">Prix pour un petit immeuble</th><td>Forfait minimum souvent élevé</td><td class="ours">Prix par logement publié, dès 159 € par mois</td><td>Gratuit, mais beaucoup de temps</td></tr><tr><th scope="row">Frais en plus du forfait</th><td>Fréquents, rarement publiés</td><td class="ours">Tous publiés sur ce site</td><td>Aucun</td></tr><tr><th scope="row">Délai de réponse</th><td>Variable</td><td class="ours">48&nbsp;h ouvrées, garanti par contrat</td><td>Selon ses disponibilités</td></tr><tr><th scope="row">Langues</th><td>Une ou deux</td><td class="ours">FR · DE · EN · PT</td><td>Celle du bénévole</td></tr><tr><th scope="row">Comptes consultables en ligne</th><td>Parfois</td><td class="ours">En temps réel, factures jointes</td><td>Rarement</td></tr><tr><th scope="row">Garanties professionnelles</th><td>Oui</td><td class="ours">Oui</td><td>Non</td></tr></tbody></table></div></div></section>
 
-<section class="band"><div class="wrap split"><div class="section-head"><span class="eyebrow">Proximité</span><h2>En ligne, mais jamais loin.</h2><p class="lead">Le numérique nous fait gagner du temps sur l'administratif. Ce temps, nous le passons dans vos immeubles et avec vos conseils syndicaux.</p></div><ul class="facts"><li><svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M10 18s6-5.3 6-9.8A6 6 0 004 8.2C4 12.7 10 18 10 18z" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="10" cy="8.2" r="2.2" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><span>Bureau au Luxembourg : 51 rue de Strasbourg, L-2561 Luxembourg</span></li><li><svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" class="icon"><circle cx="7" cy="7" r="2.8" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="14" cy="8" r="2.3" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 17c.8-3 2.8-4.6 5-4.6s4.2 1.6 5 4.6M12.5 12.6c2.3-.2 4.4 1.1 5.3 4.1" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg><span>Présence à votre assemblée générale annuelle</span></li><li><svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M3 17.5V8.5l7-5.5 7 5.5v9z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M8 17.5v-5h4v5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg><span>Visite annuelle de l'immeuble incluse</span></li><li><svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" class="icon"><path d="M4.5 2.5h3.2l1.3 4-2.1 1.3a9.5 9.5 0 004.3 4.3l1.3-2.1 4 1.3v3.2a1.8 1.8 0 01-1.8 1.8A13.7 13.7 0 012.7 4.3 1.8 1.8 0 014.5 2.5z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg><span>Joignable par téléphone : +33 6 20 83 92 54</span></li></ul></div></section>
 
 <section class="band band-soft" aria-labelledby="sell-title"><div class="wrap">
 <div class="sell">
@@ -160,6 +175,9 @@
 <span><a href="../fr/" hreflang="fr" lang="fr">Français</a> · <a href="../de/" hreflang="de" lang="de">Deutsch</a> · <a href="../en/" hreflang="en" lang="en">English</a> · <a href="../pt/" hreflang="pt" lang="pt">Português</a></span>
 </div>
 </footer>
+<script type="importmap">{"imports": {"three": "../assets/vendor/three/build/three.module.min.js", "three/addons/": "../assets/vendor/three/examples/jsm/"}}</script>
+<script type="application/json" id="mx-i18n">{"labels": [{"t": "Rez-de-chaussée", "s": "Hall et caves", "m": "Parties communes", "common": true}, {"t": "1er étage", "s": "Lots 1 et 2", "m": "200/1000"}, {"t": "2e étage", "s": "Lots 3 et 4", "m": "204/1000"}, {"t": "3e étage", "s": "Lots 5 et 6", "m": "208/1000"}, {"t": "4e étage", "s": "Lots 7 et 8", "m": "212/1000"}, {"t": "Combles", "s": "Lot 9, duplex", "m": "176/1000"}], "screen": {"example": "Exemple", "residence": "Résidence Les Tilleuls", "sub": "Esch-sur-Alzette · 9 lots", "status": "Compte à jour", "balanceK": "Votre solde", "balanceV": "0,00 €", "agK": "Prochaine AG", "agV": "Mar. 9 mars, 16 h", "agS": "Convocation FR · PT", "fundK": "Fonds de travaux", "fundV": "18 450 € sur 30 000 €", "docsK": "Derniers documents", "docs": ["Décompte des charges 2025", "Procès-verbal de l'AG 2026", "Contrat d'entretien de l'ascenseur"], "alert": "Éclairage du hall · intervention jeudi"}}</script>
+<script src="../assets/home.js?v=1" defer></script>
 <script src="../assets/site.js?v=cc6edec2" defer></script>
 </body>
 </html>

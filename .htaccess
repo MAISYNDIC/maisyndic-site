@@ -4,6 +4,7 @@ DirectoryIndex index.html
 Options -Indexes
 AddDefaultCharset utf-8
 AddType font/woff2 .woff2
+AddType image/webp .webp
 
 # --- Redirections : HTTPS et adresse unique https://maisyndic.lu ---
 RewriteEngine On
@@ -44,4 +45,5 @@ ExpiresByType application/javascript "access plus 1 year"
 ExpiresByType font/woff2 "access plus 1 year"
 ExpiresByType image/svg+xml "access plus 1 month"
 ExpiresByType image/png "access plus 1 month"
+ExpiresByType image/webp "access plus 1 month"
 </IfModule>
