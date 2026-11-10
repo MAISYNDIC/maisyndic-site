@@ -196,6 +196,18 @@ ul, ol { margin: 0; }
 .lang a[aria-current="true"] { background: var(--fg); color: var(--bg); }
 .lang a:hover:not([aria-current="true"]) { background: var(--bg-soft); }
 
+/* Grand écran : en-tête sur une seule ligne (conteneur plus large, menu et boutons resserrés) */
+@media (min-width: 1081px) {
+  .site-header .header-row { max-width: 1440px; }
+  .nav-panel { gap: 20px; }
+  .nav-list { gap: 4px 14px; }
+  .nav-list a { font-size: 0.9rem; }
+  html:lang(de) .nav-list a { font-size: 0.85rem; }
+  .header-actions { gap: 8px; }
+  .lang a { min-width: 36px; }
+  .site-header .btn-sm { padding: 0 12px; font-size: 0.9rem; }
+}
+
 @media (max-width: 1080px) {
   .menu-toggle { display: inline-flex; }
   .header-row { flex-wrap: wrap; }
@@ -310,7 +322,7 @@ h3 { font-size: var(--step-2); font-weight: 700; line-height: 1.3; }
 }
 .plan--accent { border: 2px solid var(--accent); }
 .plan .badge { align-self: flex-start; }
-.plan h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.75rem; letter-spacing: -0.02em; }
+.plan h2, .plan h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.75rem; line-height: 1.3; letter-spacing: -0.02em; }
 .plan-desc { color: var(--fg-2); font-size: 1.0625rem; }
 .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; color: var(--fg-3); }
 .price .amount { font-family: var(--font-display); font-weight: 700; font-size: 2.75rem; letter-spacing: -0.03em; color: var(--fg); line-height: 1; }
