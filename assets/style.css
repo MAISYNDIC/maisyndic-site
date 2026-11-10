@@ -541,6 +541,13 @@ h1, h2, h3, .h1, .h2 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens
 .guide .list { display: flex; flex-direction: column; gap: 8px; padding-left: 1.2em; color: var(--fg-2); }
 .guide p + p, .guide p + ul, .guide ul + p { margin-top: 10px; }
 .guide-aside h2 { font-size: 1.4rem; } .guide-aside h3 { font-size: 1.05rem; margin-top: 8px; }
+.guide .keypoints { padding: 22px 24px; border-radius: var(--radius-m); background: var(--bg-soft); }
+.guide .keypoints h2 { font-size: 1.25rem; }
+.guide .example { padding: 16px 20px; border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; background: var(--bg-soft); }
+.guide .compare { min-width: 0; font-size: 0.95rem; }
+.guide .compare th, .guide .compare td { padding: 14px 16px; }
+.guide .compare tbody th small { display: block; margin-top: 4px; font-size: 0.85rem; font-weight: 400; color: var(--fg-3); }
+@media (max-width: 560px) { .guide .compare thead { display: none; } .guide .compare tr, .guide .compare th, .guide .compare td { display: block; } .guide .compare tbody th { border-bottom: 0; padding-bottom: 4px; } }
 
 /* Paliers de prix sous le montant des formules */
 .tiers { font-size: var(--step--1); color: var(--fg-2); margin-top: -4px; }
