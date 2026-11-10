@@ -72,7 +72,6 @@
 .mx-hint { display: inline-flex; align-items: center; gap: 12px; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-2); }
 .mx-hint span { width: 1px; height: 34px; background: linear-gradient(var(--fg-2), transparent); animation: mx-drip 2.4s ease-in-out infinite; transform-origin: top; }
 @keyframes mx-drip { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
-.mx-note { position: absolute; right: max(var(--gutter, 16px), env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); font-size: 0.7rem; color: var(--fg-2); margin: 0; }
 .mx-fade { position: absolute; inset: auto 0 0 0; height: 30vh; background: linear-gradient(to bottom, transparent, var(--mx-studio)); pointer-events: none; opacity: 0; }
 
 /* ---------- 2. Maquette 3D ---------- */
@@ -121,7 +120,7 @@
 .mx-timeline a.is-on { color: var(--fg); }
 
 @media (max-width: 860px) {
-  .mx-timeline, .mx-labels, .mx-note { display: none; }
+  .mx-timeline, .mx-labels { display: none; }
   .mx-hero { height: 190vh; }
   .mx-hero-copy, .mx-hero-end { justify-content: flex-end; padding-block: 0 5vh; gap: 14px; }
   .mx-hero-copy > *, .mx-hero-end > * { max-width: 100%; }
