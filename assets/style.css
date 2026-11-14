@@ -114,6 +114,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 96px; }
+/* En-tête sur deux lignes entre 1024 et 1400 px environ : ancres un peu plus bas pour ne pas cacher leur titre. */
+@media (min-width: 1000px) and (max-width: 1420px) { html { scroll-padding-top: 150px; } }
 body {
   margin: 0;
   background: var(--bg);
