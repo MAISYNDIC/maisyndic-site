@@ -225,7 +225,7 @@
         if (!isQuote && (k === "lots" || k === "plan" || k === "residence")) return;
         payload[k] = v;
       });
-      payload.consentement = "oui";
+      payload.information_lue = "oui"; // case « J'ai lu la politique de protection des données » (pas un consentement)
       payload.page_lang = lang;
       fetch(endpoint, {
         method: "POST",

@@ -91,6 +91,13 @@ if (count($hits) >= MAX_PER_HOUR) {
 }
 $hits[] = $now;
 @file_put_contents($rateFile, json_encode(array_values($hits)), LOCK_EX);
+// Fichiers de limitation (empreinte de l'adresse IP et heures des demandes) : effacés après une journée
+// (page « Protection des données » ; registre des traitements de mäisyndic, fiche 14).
+foreach (glob($dataDir . '/rate-*.json') ?: [] as $ancien) {
+    if (@filemtime($ancien) < $now - 86400) {
+        @unlink($ancien);
+    }
+}
 
 // Modèles de réponse et prix, générés par le site (build.py).
 $cfg = json_decode((string) @file_get_contents(__DIR__ . '/contact-data.json'), true);
