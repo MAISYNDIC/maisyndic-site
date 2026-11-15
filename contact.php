@@ -34,6 +34,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     respond(false, 'method', 405);
 }
 
+// Fichiers de limitation (empreinte de l'adresse IP et heures des demandes) : effacés après une journée, à chaque
+// demande reçue, même refusée (page « Protection des données » ; registre des traitements de mäisyndic, fiche 14).
+foreach (glob(dirname(__DIR__) . '/data/rate-*.json') ?: [] as $ancien) {
+    if (@filemtime($ancien) < time() - 86400) {
+        @unlink($ancien);
+    }
+}
+
 // Les demandes doivent venir du site lui-même.
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if ($origin !== '' && !preg_match('#^https?://(www\.)?maisyndic\.lu$#', $origin)) {
