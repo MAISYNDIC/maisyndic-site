@@ -128,13 +128,16 @@
     bar.className = "mobile-cta";
     var link = document.createElement("a");
     link.className = "btn btn-primary";
-    link.href = "tarifs.html#calcul";
+    // Sur une page qui a son propre calculateur (l'accueil), le bouton y mène directement.
+    var calcSection = calc ? calc.closest("section") : null;
+    link.href = calcSection && calcSection.id ? "#" + calcSection.id : "tarifs.html#calcul";
     link.textContent = ctaText[lang] || ctaText.fr;
     bar.appendChild(link);
     document.body.appendChild(bar);
-    var footerSeen = false;
-    var refreshBar = function () { bar.classList.toggle("is-visible", window.scrollY > window.innerHeight * 0.6 && !footerSeen); };
+    var footerSeen = false, calcSeen = false;
+    var refreshBar = function () { bar.classList.toggle("is-visible", window.scrollY > window.innerHeight * 0.6 && !footerSeen && !calcSeen); };
     new IntersectionObserver(function (entries) { footerSeen = entries[0].isIntersecting; refreshBar(); }).observe(footer);
+    if (calcSection) new IntersectionObserver(function (entries) { calcSeen = entries[0].isIntersecting; refreshBar(); }).observe(calcSection);
     window.addEventListener("scroll", refreshBar, { passive: true });
     refreshBar();
   }

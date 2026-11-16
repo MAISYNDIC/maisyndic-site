@@ -89,8 +89,8 @@
 .mx-lbl span { color: var(--fg-2); }
 .mx-lbl em { font-style: normal; font-variant-numeric: tabular-nums; font-weight: 600; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--mx-pill); }
 .mx-chapters { position: relative; z-index: 2; margin-top: calc(var(--mx-top) - 100vh); margin-top: calc(var(--mx-top) - 100svh); }
-.mx-chapter { min-height: 135vh; display: flex; align-items: center; }
-.mx-chapter:last-child { min-height: 115vh; }
+.mx-chapter { min-height: 120vh; display: flex; align-items: center; }
+.mx-chapter:last-child { min-height: 105vh; }
 .mx-chapter > .wrap { width: 100%; }
 .mx-copy { max-width: 32rem; display: grid; gap: 20px; will-change: transform, opacity; }
 .mx-copy h2 { font-size: clamp(2rem, 1.2rem + 3vw, 3.5rem); line-height: 1.04; }
