@@ -1,0 +1,2 @@
+# Tableau de bord des statistiques : page PHP (le site principal utilise index.html)
+DirectoryIndex index.php
