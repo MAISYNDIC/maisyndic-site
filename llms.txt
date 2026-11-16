@@ -1,0 +1,68 @@
+# mäisyndic
+
+> mäisyndic est un syndic de copropriété professionnel au Luxembourg, pour les petites et moyennes copropriétés. Prix publiés par logement et par mois, espace en ligne pour chaque copropriétaire, échanges en français, allemand, anglais et portugais. mäisyndic is a professional co-ownership syndic (condominium manager) in Luxembourg, with published prices and an online portal for every owner.
+
+## L'entreprise
+
+- Société : BUSINESS EVOLUTION SARL, RCS Luxembourg B251188
+- Autorisations d'établissement : n° 10124351/2 (agent immobilier) et n° 10124351/3 (administrateur de biens – syndic de copropriété)
+- Bureau : 51 rue de Strasbourg, L-2561 Luxembourg (Luxembourg-Gare)
+- Zone d'intervention : toutes les communes du Grand-Duché de Luxembourg, mêmes prix partout
+- Langues : français, allemand, anglais, portugais
+- Contact : contact@maisyndic.lu, du lundi au vendredi, 9 h – 12 h et 14 h – 18 h
+- Délai de réponse : sous 48 h ouvrées
+
+## Formules et prix (HTVA, par logement et par mois)
+
+- Bénévole+ : 10,90 €, pour les immeubles de 9 logements au plus dont un copropriétaire reste syndic bénévole ; minimum 49 € par mois
+- Essentiel : 24,90 € de 2 à 10 logements, 21,90 € de 11 à 30, 20,00 € au-delà ; minimum 159 € par mois et par immeuble
+- Sérénité : 29,90 € de 2 à 10 logements, 26,90 € de 11 à 30, 25,00 € au-delà ; minimum 199 € par mois et par immeuble
+- Aucun frais de démarrage ; caves et parkings gratuits s'ils appartiennent au propriétaire d'un logement de l'immeuble
+- Reprise de la copropriété gratuite si la comptabilité a moins de 3 mois de retard
+- Suppléments publiés : https://maisyndic.lu/fr/prix-syndic-luxembourg.html
+
+## Pages principales
+
+- [Accueil](https://maisyndic.lu/fr/): présentation et calculateur de prix
+- [Offres et tarifs](https://maisyndic.lu/fr/tarifs.html): détail des trois formules et calculateur
+- [Changer de syndic](https://maisyndic.lu/fr/changer-de-syndic.html): étapes et calendrier d'un changement de syndic
+- [Syndic bénévole](https://maisyndic.lu/fr/syndic-benevole.html): formule Bénévole+ pour les petits immeubles
+- [Fonds de travaux](https://maisyndic.lu/fr/fonds-de-travaux.html): cotisation obligatoire depuis le 1er août 2023
+- [Espace copropriétaire](https://maisyndic.lu/fr/espace.html): ce que chaque copropriétaire voit en ligne
+- [Questions fréquentes](https://maisyndic.lu/fr/faq.html)
+- [Demander un devis](https://maisyndic.lu/fr/contact.html)
+
+## Guides (droit luxembourgeois de la copropriété)
+
+- [Comment choisir son syndic de copropriété](https://maisyndic.lu/fr/choisir-syndic-copropriete.html)
+- [Prix d'un syndic au Luxembourg](https://maisyndic.lu/fr/prix-syndic-luxembourg.html)
+- [Rôle du syndic](https://maisyndic.lu/fr/role-syndic-copropriete.html)
+- [Assemblée générale de copropriété](https://maisyndic.lu/fr/assemblee-generale-copropriete.html)
+- [Charges de copropriété](https://maisyndic.lu/fr/charges-copropriete.html)
+- [Règlement de copropriété](https://maisyndic.lu/fr/reglement-copropriete.html)
+- [Syndic dans tout le Luxembourg](https://maisyndic.lu/fr/syndic-luxembourg.html)
+
+## English
+
+- [Home](https://maisyndic.lu/en/)
+- [Plans and prices](https://maisyndic.lu/en/tarifs.html)
+- [How to choose a syndic in Luxembourg](https://maisyndic.lu/en/choisir-syndic-copropriete.html)
+- [What a syndic costs](https://maisyndic.lu/en/prix-syndic-luxembourg.html)
+- [The syndic's role](https://maisyndic.lu/en/role-syndic-copropriete.html)
+- [The general meeting](https://maisyndic.lu/en/assemblee-generale-copropriete.html)
+- [Co-ownership charges](https://maisyndic.lu/en/charges-copropriete.html)
+- [The co-ownership rules](https://maisyndic.lu/en/reglement-copropriete.html)
+
+## Deutsch
+
+- [Startseite](https://maisyndic.lu/de/)
+- [Angebote und Preise](https://maisyndic.lu/de/tarifs.html)
+- [Wie wählt man einen Syndic in Luxemburg?](https://maisyndic.lu/de/choisir-syndic-copropriete.html)
+- [Was kostet ein Syndic?](https://maisyndic.lu/de/prix-syndic-luxembourg.html)
+
+## Português
+
+- [Início](https://maisyndic.lu/pt/)
+- [Planos e preços](https://maisyndic.lu/pt/tarifs.html)
+- [Como escolher um syndic no Luxemburgo](https://maisyndic.lu/pt/choisir-syndic-copropriete.html)
+- [Quanto custa um syndic](https://maisyndic.lu/pt/prix-syndic-luxembourg.html)
