@@ -45,6 +45,27 @@
     }
 
     var minNote = calc.querySelector("[data-min-note]");
+    var resultBox = calc.querySelector(".calc-result");
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var shownTotal = null, tweenFrame = 0;
+
+    // Le total glisse vers sa nouvelle valeur ; les lecteurs d'écran n'entendent que la valeur finale.
+    function showTotal(value) {
+      if (shownTotal === null || reduceMotion || !window.requestAnimationFrame) {
+        shownTotal = value; totalOut.textContent = money(value, 2); return;
+      }
+      var from = shownTotal, start = performance.now(), duration = 420;
+      cancelAnimationFrame(tweenFrame);
+      if (resultBox) resultBox.setAttribute("aria-busy", "true");
+      (function step(now) {
+        var t = Math.min(1, (now - start) / duration), e = 1 - Math.pow(1 - t, 4);
+        shownTotal = from + (value - from) * e;
+        totalOut.textContent = money(shownTotal, 2);
+        if (t < 1) { tweenFrame = requestAnimationFrame(step); return; }
+        shownTotal = value; totalOut.textContent = money(value, 2);
+        if (resultBox) resultBox.removeAttribute("aria-busy");
+      })(start);
+    }
 
     // Prix du palier correspondant au nombre de logements (appliqué à tout l'immeuble).
     function rateFor(input, lots) {
@@ -67,7 +88,8 @@
       var rate = plan ? rateFor(plan, lots) : 0;
       var min = plan ? parseFloat(plan.getAttribute("data-min")) || 0 : 0;
       var monthly = Math.max(rate * lots, min);
-      totalOut.textContent = money(monthly, 2);
+      showTotal(monthly);
+      calc.dispatchEvent(new CustomEvent("calc:update", { detail: { lots: lots, plan: plan ? plan.value : "" } }));
       perOut.textContent = perTemplate.replace("{value}", money(monthly * 12, 0));
       if (minNote) minNote.hidden = !(rate * lots < min);
       warn.hidden = !(plan && plan.value === "benevole" && lots > 9);
@@ -96,6 +118,25 @@
       r.addEventListener("change", update);
     });
     update();
+  }
+
+  /* ---------- Bouton « Calculer mon prix » sur téléphone ---------- */
+  var ctaText = { fr: "Calculer mon prix", de: "Preis berechnen", en: "Calculate my price", pt: "Calcular o meu preço" };
+  var footer = document.querySelector(".site-footer");
+  if (/\/(fr|de|en|pt)\//.test(location.pathname) && !/(tarifs|contact|devis-syndic)\.html$/.test(location.pathname) && footer && window.IntersectionObserver) {
+    var bar = document.createElement("div");
+    bar.className = "mobile-cta";
+    var link = document.createElement("a");
+    link.className = "btn btn-primary";
+    link.href = "tarifs.html#calcul";
+    link.textContent = ctaText[lang] || ctaText.fr;
+    bar.appendChild(link);
+    document.body.appendChild(bar);
+    var footerSeen = false;
+    var refreshBar = function () { bar.classList.toggle("is-visible", window.scrollY > window.innerHeight * 0.6 && !footerSeen); };
+    new IntersectionObserver(function (entries) { footerSeen = entries[0].isIntersecting; refreshBar(); }).observe(footer);
+    window.addEventListener("scroll", refreshBar, { passive: true });
+    refreshBar();
   }
 
   /* ---------- Formulaire de devis ---------- */
