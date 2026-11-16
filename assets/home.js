@@ -191,9 +191,23 @@
   /* ---------- Maquette 3D : chargée seulement à l'approche de la section ---------- */
   var fallback = document.getElementById("mx-fallback");
   var requested = false;
+  /* Sans carte graphique (rendu logiciel) ou sans WebGL : la photo de la maquette remplace la 3D */
+  function softwareGL() {
+    try {
+      var c = document.createElement("canvas");
+      var gl = c.getContext("webgl2") || c.getContext("webgl");
+      if (!gl) return true;
+      var ext = gl.getExtension("WEBGL_debug_renderer_info");
+      var r = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "";
+      var lose = gl.getExtension("WEBGL_lose_context");
+      if (lose) lose.loseContext();
+      return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(r);
+    } catch (e) { return true; }
+  }
   function load3d() {
     if (requested) return;
     requested = true;
+    if (softwareGL()) { if (fallback) fallback.hidden = false; return; }
     var go = function () {
       import(new URL("home-3d.js?v=4", scriptSrc).href).catch(function () { if (fallback) fallback.hidden = false; });
     };

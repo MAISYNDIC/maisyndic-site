@@ -79,7 +79,7 @@
 .mx-story::after { content: ""; display: block; height: 30vh; position: relative; z-index: 2; background: linear-gradient(var(--mx-studio), var(--bg)); }
 .mx-story canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .mx-fallback { position: absolute; inset: 0; display: grid; place-items: center; }
-.mx-fallback svg { width: min(36vw, 280px); height: auto; transform: translateX(16vw); }
+.mx-fallback img { display: block; width: min(66vw, 1000px); height: auto; transform: translateX(15vw); -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); }
 .mx-labels { position: absolute; inset: 0; pointer-events: none; }
 .mx-lbl { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 10px; white-space: nowrap; font-size: 0.8125rem; color: var(--fg); opacity: 0; will-change: transform, opacity; }
 .mx-lbl i { position: relative; width: 46px; height: 1px; background: var(--fg-2); flex: none; }
@@ -130,7 +130,7 @@
   .mx-chapter { align-items: flex-end; padding-bottom: 10vh; }
   .mx-copy { padding: 22px; border-radius: 22px; gap: 14px; background: var(--mx-glass); border: 1px solid var(--line); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
   .mx-copy p { font-size: var(--step-0); }
-  .mx-fallback svg { transform: translateY(-18vh); }
+  .mx-fallback img { width: 150vw; max-width: none; margin-inline: -25vw; transform: translateY(-17vh); }
 }
 @media (max-width: 480px) {
   .mx-hero .lead, .mx-hint { display: none; }

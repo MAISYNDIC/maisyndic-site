@@ -199,7 +199,7 @@ ul, ol { margin: 0; }
 .lang a:hover:not([aria-current="true"]) { background: var(--bg-soft); }
 
 /* Grand écran : en-tête sur une seule ligne (conteneur plus large, menu et boutons resserrés) */
-@media (min-width: 1081px) {
+@media (min-width: 1180px) {
   .site-header .header-row { max-width: 1440px; }
   .nav-panel { gap: 20px; }
   .nav-list { gap: 4px 14px; }
@@ -209,8 +209,21 @@ ul, ol { margin: 0; }
   .lang a { min-width: 36px; }
   .site-header .btn-sm { padding: 0 12px; font-size: 0.9rem; }
 }
+/* Espace copropriétaire : bouton avec icône seule sur les écrans de portable, pour garder l'en-tête sur une ligne */
+.btn-espace .icon { display: none; }
+@media (min-width: 1180px) and (max-width: 1439px) {
+  .site-header .btn-espace { width: 40px; padding: 0; }
+  .btn-espace .icon { display: block; }
+  .btn-espace .btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+}
+@media (min-width: 1180px) and (max-width: 1279px) {
+  .nav-panel { gap: 14px; }
+  .nav-list { gap: 4px 11px; }
+  .header-actions { gap: 6px; }
+  .lang a { min-width: 33px; }
+}
 
-@media (max-width: 1080px) {
+@media (max-width: 1179px) {
   .menu-toggle { display: inline-flex; }
   .header-row { flex-wrap: wrap; }
   .nav-panel { display: none; flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 16px; padding-block: 8px 16px; }
@@ -218,6 +231,19 @@ ul, ol { margin: 0; }
   .nav-list { flex-direction: column; gap: 0; }
   .nav-list a { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
   .header-actions { justify-content: flex-start; }
+}
+/* Allemand : libellés plus longs, menu repliable jusqu'à 1279 px */
+@media (min-width: 1180px) and (max-width: 1279px) {
+  html:lang(de) .menu-toggle { display: inline-flex; }
+  html:lang(de) .header-row { flex-wrap: wrap; }
+  html:lang(de) .nav-panel { display: none; flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 16px; padding-block: 8px 16px; }
+  html:lang(de) .nav-panel.is-open { display: flex; }
+  html:lang(de) .nav-list { flex-direction: column; gap: 0; }
+  html:lang(de) .nav-list a { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
+  html:lang(de) .header-actions { justify-content: flex-start; }
+  html:lang(de) .site-header .btn-espace { width: auto; padding: 0 12px; }
+  html:lang(de) .btn-espace .icon { display: none; }
+  html:lang(de) .btn-espace .btn-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; }
 }
 
 /* ---------- Boutons ---------- */
