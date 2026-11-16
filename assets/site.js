@@ -287,3 +287,53 @@
     });
   }
 })();
+
+/* Mesure d'audience anonyme (stats/collect.php) : ni cookie, ni identifiant, ni adresse IP.
+   Envoie la page vue, le site d'origine et quelques actions (calculateur, téléphone, e-mail,
+   fiche Google, Facebook). Désactivée hors de maisyndic.lu, pour les navigateurs qui demandent
+   à ne pas être suivis, et sur le navigateur du gérant (adresse terminée par #nostats). */
+(function () {
+  "use strict";
+  var ls = null;
+  try { ls = window.localStorage; } catch (e) {}
+  if (location.hash === "#nostats" && ls) { try { ls.setItem("mx-nostats", "1"); } catch (e) {} }
+  if (location.hostname !== "maisyndic.lu" || navigator.webdriver) return;
+  if (navigator.globalPrivacyControl || navigator.doNotTrack === "1") return;
+  try { if (ls && ls.getItem("mx-nostats") === "1") return; } catch (e) {}
+
+  var lang = (document.documentElement.lang || "").slice(0, 2);
+  function send(e, extra) {
+    var data = { e: e, p: location.pathname, l: lang };
+    if (extra) for (var k in extra) data[k] = extra[k];
+    var body = JSON.stringify(data);
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon("/stats/collect.php", new Blob([body], { type: "text/plain" }))) return;
+    } catch (err) {}
+    try { fetch("/stats/collect.php", { method: "POST", body: body, keepalive: true, credentials: "omit" }); } catch (err) {}
+  }
+
+  var nav = (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]) || {};
+  var repeat = nav.type === "reload" || nav.type === "back_forward";
+  var utm = (location.search.match(/[?&]utm_source=([^&#]*)/) || [])[1] || "";
+  send("view", { r: repeat ? location.origin + "/" : document.referrer, u: repeat ? "" : decodeURIComponent(utm) });
+
+  // Calculateur : compté une fois par page, au premier geste du visiteur (pas au calcul initial).
+  var calcSent = false;
+  function calcUsed(ev) {
+    if (calcSent || !ev.target.closest || !ev.target.closest("[data-calc]")) return;
+    if (ev.type === "click" && !ev.target.closest("button, label")) return;
+    calcSent = true;
+    send("calc");
+  }
+  ["input", "change", "click"].forEach(function (t) { document.addEventListener(t, calcUsed, true); });
+
+  document.addEventListener("click", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (!a) return;
+    var h = a.getAttribute("href");
+    if (h.indexOf("tel:") === 0) send("tel");
+    else if (h.indexOf("mailto:") === 0) send("mail");
+    else if (/maps\.google\.|google\.[a-z.]+\/maps|g\.page/.test(h)) send("google");
+    else if (/facebook\.com/.test(h)) send("facebook");
+  }, true);
+})();
