@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /stats/
 Sitemap: https://maisyndic.lu/sitemap.xml
