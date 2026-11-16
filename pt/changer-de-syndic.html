@@ -26,8 +26,9 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/style.css?v=20261116">
+<link rel="stylesheet" href="../assets/style.css?v=20261116b">
 
+<script type="importmap">{"imports": {"three": "../assets/vendor/three/build/three.module.min.js", "three/addons/": "../assets/vendor/three/examples/jsm/"}}</script>
 </head>
 <body>
 <a class="skip" href="#main">Ir para o conteúdo</a>
@@ -46,7 +47,7 @@
 </div>
 </header>
 <main id="main">
-<section class="page-head"><div class="wrap"><h1>Mudar de syndic</h1><p class="lead">É mais simples do que parece. Veja como funciona com a mäisyndic, passo a passo.</p></div></section>
+<section class="page-head"><div class="head-scene" data-scene="changer" aria-hidden="true"><canvas></canvas></div><div class="wrap"><h1>Mudar de syndic</h1><p class="lead">É mais simples do que parece. Veja como funciona com a mäisyndic, passo a passo.</p></div></section>
 <section class="band"><div class="wrap"><h2 class="sr-only">As etapas da mudança de syndic</h2><ol class="timeline"><li><span class="num" aria-hidden="true">1</span><div><h3>Pede um orçamento</h3><p>Indique o número de frações, o município e o que não está a correr bem. Recebe um orçamento firme em 48 horas.</p></div></li><li><span class="num" aria-hidden="true">2</span><div><h3>Reunimos com o seu conselho</h3><p>Por telefone, videochamada ou no local. Comparamos o nosso contrato com o do seu syndic atual, linha a linha, para que todos vejam a diferença.</p></div></li><li><span class="num" aria-hidden="true">3</span><div><h3>Vota em assembleia geral</h3><p>Preparamos a proposta de nomeação e uma nota explicativa para juntar à convocatória, nas línguas dos seus condóminos.</p></div></li><li><span class="num" aria-hidden="true">4</span><div><h3>Recebemos o processo</h3><p>Assim que somos nomeados, pedimos ao syndic anterior os arquivos, a situação contabilística, os fundos e os contratos em curso. Não tem de fazer nada.</p></div></li><li><span class="num" aria-hidden="true">5</span><div><h3>A sua área online abre</h3><p>Cada condómino recebe os seus acessos na sua língua. Seguem-se o primeiro pedido de quotas e o calendário do ano.</p></div></li></ol></div></section>
 <section class="band band-soft"><div class="wrap split">
 <div class="box"><h2>O que nos ajuda a preparar o orçamento</h2><ul class="list"><li>O número de frações e a morada do prédio</li><li>A última ata da assembleia geral</li><li>O último mapa de despesas</li><li>O contrato do seu syndic atual, se existir</li><li>A lista dos contratos de manutenção em curso</li></ul><p class="note">Nada disto é obrigatório para um primeiro preço: bastam o número de frações e o município.</p></div>
@@ -94,5 +95,6 @@
 </div>
 </footer>
 <script src="../assets/site.js?v=20261116b" defer></script>
+<script type="module" src="../assets/scene-3d.js?v=2"></script>
 </body>
 </html>

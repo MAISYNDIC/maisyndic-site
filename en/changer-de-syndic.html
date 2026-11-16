@@ -26,8 +26,9 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/style.css?v=20261116">
+<link rel="stylesheet" href="../assets/style.css?v=20261116b">
 
+<script type="importmap">{"imports": {"three": "../assets/vendor/three/build/three.module.min.js", "three/addons/": "../assets/vendor/three/examples/jsm/"}}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -46,7 +47,7 @@
 </div>
 </header>
 <main id="main">
-<section class="page-head"><div class="wrap"><h1>Switching syndic</h1><p class="lead">It's simpler than people think. Here is how it works with mäisyndic, step by step.</p></div></section>
+<section class="page-head"><div class="head-scene" data-scene="changer" aria-hidden="true"><canvas></canvas></div><div class="wrap"><h1>Switching syndic</h1><p class="lead">It's simpler than people think. Here is how it works with mäisyndic, step by step.</p></div></section>
 <section class="band"><div class="wrap"><h2 class="sr-only">The steps to switch syndic</h2><ol class="timeline"><li><span class="num" aria-hidden="true">1</span><div><h3>You ask for a quote</h3><p>Tell us the number of units, the municipality and what isn't working today. You get a firm quote within 48 hours.</p></div></li><li><span class="num" aria-hidden="true">2</span><div><h3>We meet your owners' council</h3><p>By phone, video call or on site. We compare our contract with your current syndic's line by line, so everyone sees the difference.</p></div></li><li><span class="num" aria-hidden="true">3</span><div><h3>You vote at the general meeting</h3><p>We prepare the appointment resolution and an explanatory note for the meeting notice, in your owners' languages.</p></div></li><li><span class="num" aria-hidden="true">4</span><div><h3>We take over the file</h3><p>As soon as we are appointed, we request the records, accounts, funds and current contracts from the previous syndic. You have nothing to do.</p></div></li><li><span class="num" aria-hidden="true">5</span><div><h3>Your portal opens</h3><p>Every owner receives their login in their own language. The first call for funds and the year's calendar follow.</p></div></li></ol></div></section>
 <section class="band band-soft"><div class="wrap split">
 <div class="box"><h2>What helps us prepare your quote</h2><ul class="list"><li>The number of units and the building's address</li><li>The latest general meeting minutes</li><li>The latest service charge statement</li><li>Your current syndic's contract, if there is one</li><li>The list of current maintenance contracts</li></ul><p class="note">None of this is required for a first price: the number of units and the municipality are enough.</p></div>
@@ -94,5 +95,6 @@
 </div>
 </footer>
 <script src="../assets/site.js?v=20261116b" defer></script>
+<script type="module" src="../assets/scene-3d.js?v=2"></script>
 </body>
 </html>
