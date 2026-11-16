@@ -36,7 +36,7 @@
 
 .mx-eyebrow {
   display: inline-flex; align-items: center; gap: 9px; justify-self: start;
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-2);
+  font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-2);
 }
 .mx-eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--mx-warm); flex: none; }
 .mx-hero h1, .mx-hero h2, .mx-story h2 {
@@ -69,7 +69,7 @@
 .mx-proofs { display: grid; gap: 8px; margin: 4px 0 0; padding: 0; list-style: none; font-size: var(--step--1); color: var(--fg-2); }
 .mx-proofs li { display: flex; align-items: baseline; gap: 8px; }
 .mx-proofs b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; min-width: 2.6em; }
-.mx-hint { display: inline-flex; align-items: center; gap: 12px; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-2); }
+.mx-hint { display: inline-flex; align-items: center; gap: 12px; font-size: 0.8125rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-2); }
 .mx-hint span { width: 1px; height: 34px; background: linear-gradient(var(--fg-2), transparent); animation: mx-drip 2.4s ease-in-out infinite; transform-origin: top; }
 @keyframes mx-drip { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
 .mx-fade { position: absolute; inset: auto 0 0 0; height: 30vh; background: linear-gradient(to bottom, transparent, var(--mx-studio)); pointer-events: none; opacity: 0; }
@@ -81,7 +81,7 @@
 .mx-fallback { position: absolute; inset: 0; display: grid; place-items: center; }
 .mx-fallback svg { width: min(36vw, 280px); height: auto; transform: translateX(16vw); }
 .mx-labels { position: absolute; inset: 0; pointer-events: none; }
-.mx-lbl { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 10px; white-space: nowrap; font-size: 0.76rem; color: var(--fg); opacity: 0; will-change: transform, opacity; }
+.mx-lbl { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 10px; white-space: nowrap; font-size: 0.8125rem; color: var(--fg); opacity: 0; will-change: transform, opacity; }
 .mx-lbl i { position: relative; width: 46px; height: 1px; background: var(--fg-2); flex: none; }
 .mx-lbl i::before { content: ""; position: absolute; left: -4px; top: -3.5px; width: 8px; height: 8px; border-radius: 50%; background: var(--mx-warm); }
 .mx-lbl.is-common i::before { background: var(--accent); }
@@ -96,7 +96,7 @@
 .mx-copy h2 { font-size: clamp(2rem, 1.2rem + 3vw, 3.5rem); line-height: 1.04; }
 .mx-copy p { color: var(--fg-2); font-size: 1.125rem; }
 .mx-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.mx-chips li { font-size: 0.8rem; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--mx-pill); color: var(--fg); }
+.mx-chips li { font-size: 0.8125rem; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--mx-pill); color: var(--fg); }
 .mx-legend li { display: inline-flex; align-items: center; gap: 8px; }
 .mx-legend li::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--mx-warm); }
 .mx-legend li.is-common::before { background: var(--accent); }
@@ -109,7 +109,7 @@
 .mx-timeline {
   position: fixed; z-index: 40; display: flex; gap: 16px;
   right: max(24px, env(safe-area-inset-right, 0px)); bottom: calc(22px + env(safe-area-inset-bottom, 0px));
-  font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
   opacity: 0; transform: translateY(8px); transition: opacity .4s, transform .4s; pointer-events: none;
 }
 .mx-timeline.is-visible { opacity: 1; transform: none; pointer-events: auto; }
@@ -126,7 +126,7 @@
   .mx-hero-copy > *, .mx-hero-end > * { max-width: 100%; }
   .mx-hero h1 { font-size: clamp(2.1rem, 9vw, 2.9rem); }
   .mx-hero .lead { font-size: var(--step-0); }
-  .mx-proofs { font-size: 0.8rem; gap: 4px; }
+  .mx-proofs { font-size: 0.8125rem; gap: 4px; }
   .mx-chapter { align-items: flex-end; padding-bottom: 10vh; }
   .mx-copy { padding: 22px; border-radius: 22px; gap: 14px; background: var(--mx-glass); border: 1px solid var(--line); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
   .mx-copy p { font-size: var(--step-0); }

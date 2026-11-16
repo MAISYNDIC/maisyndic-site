@@ -562,3 +562,132 @@ h1, h2, h3, .h1, .h2 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens
 .footer-communes .footer-title { display: inline; margin-right: 8px; }
 .footer-communes a { color: inherit; text-decoration: none; white-space: nowrap; }
 .footer-communes a:hover { text-decoration: underline; }
+
+/* =====================================================================
+   Version agence (novembre 2026) : typographie, mouvement, maquette.
+   Tout ce bloc complète les règles ci-dessus ; le retirer rend le site
+   tel qu'il était.
+   ===================================================================== */
+
+/* ---------- Typographie : une seule échelle, des titres plus affirmés ---------- */
+:root {
+  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --step-1: clamp(1.125rem, 1.06rem + 0.3vw, 1.25rem);
+  --step-3: clamp(1.9rem, 1.25rem + 2.4vw, 3.1rem);
+  --step-4: clamp(2.5rem, 1.45rem + 3.9vw, 4.6rem);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-inout: cubic-bezier(.65, 0, .35, 1);
+  --t-fast: .18s;
+  --t-mid: .4s;
+  --t-slow: .9s;
+  --studio: #CACBCD;
+}
+h1, .h1 { font-weight: 600; letter-spacing: -0.04em; line-height: 1.02; }
+h2, .h2 { font-weight: 600; letter-spacing: -0.032em; line-height: 1.08; }
+h3 { letter-spacing: -0.015em; }
+.eyebrow { font-size: 0.8125rem; letter-spacing: 0.12em; }
+.lead { max-width: 36rem; line-height: 1.55; }
+.prose { max-width: 42rem; }
+.prose p, .prose li { line-height: 1.7; }
+.plan h2, .plan h3 { font-weight: 600; letter-spacing: -0.03em; }
+.price .amount, .result-total { font-weight: 300; letter-spacing: -0.05em; }
+.mock-tag, .mock-tile .s { font-size: 0.8125rem; }
+
+/* ---------- En-têtes des pages : la maquette, sous un autre angle ---------- */
+.page-head {
+  --bg: #FFFFFF; --bg-soft: #F2F6F9; --surface: #FFFFFF;
+  --fg: #0E1E2C; --fg-2: #33434F; --fg-3: #4A5B6A;
+  --line: rgba(14, 30, 44, 0.18); --line-2: #B9C5CF;
+  --accent: #0B5FA5; --accent-hover: #08467A; --on-accent: #FFFFFF;
+  position: relative; overflow: hidden; isolation: isolate;
+  background: var(--studio); color: var(--fg); color-scheme: light;
+}
+.page-head h1 { font-size: var(--step-4); max-width: 17ch; }
+.page-head .lead { color: var(--fg-2); }
+@media (min-width: 901px) {
+  .page-head { --head-frame: url("/assets/hero/f121.webp"); }
+  html:has(link[rel="canonical"][href*="changer-de-syndic"]) .page-head { --head-frame: url("/assets/hero/f040.webp"); }
+  html:has(link[rel="canonical"][href*="tarifs"]) .page-head,
+  html:has(link[rel="canonical"][href*="prix-syndic"]) .page-head { --head-frame: url("/assets/hero/f080.webp"); }
+  html:has(link[rel="canonical"][href*="fonds-de-travaux"]) .page-head,
+  html:has(link[rel="canonical"][href*="charges-copropriete"]) .page-head { --head-frame: url("/assets/hero/f060.webp"); }
+  html:has(link[rel="canonical"][href*="espace"]) .page-head,
+  html:has(link[rel="canonical"][href*="assemblee-generale"]) .page-head { --head-frame: url("/assets/hero/f100.webp"); }
+  html:has(link[rel="canonical"][href*="syndic-benevole"]) .page-head,
+  html:has(link[rel="canonical"][href*="reglement-copropriete"]) .page-head { --head-frame: url("/assets/hero/f020.webp"); }
+  .page-head::after {
+    content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; right: 0; width: min(54%, 820px);
+    background: var(--head-frame) 62% 58% / cover no-repeat;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 36%); mask-image: linear-gradient(90deg, transparent 0, #000 36%);
+  }
+  .page-head .wrap { min-height: 360px; justify-content: center; }
+  .page-head .wrap > * { max-width: min(38rem, 54%); }
+}
+
+/* ---------- Mouvement : peu d'effets, toujours les mêmes ---------- */
+.btn { transition: background-color var(--t-fast), border-color var(--t-fast), color var(--t-fast), transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast); }
+.btn svg { transition: transform var(--t-fast) var(--ease-out); }
+.plan, .feature, .card, .lang-card { transition: transform var(--t-mid) var(--ease-out), box-shadow var(--t-mid) var(--ease-out), border-color var(--t-fast); }
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary:hover { box-shadow: 0 12px 26px -14px var(--accent); }
+  .btn:hover svg { transform: translateX(3px); }
+  .plan:hover, .feature:hover, .lang-card:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -30px var(--shadow); }
+}
+.btn:active { transform: scale(.98); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Changement de page sans écran blanc : l'en-tête reste en place. */
+  @view-transition { navigation: auto; }
+  .site-header { view-transition-name: site-header; }
+  ::view-transition-old(root) { animation: var(--t-mid) var(--ease-inout) both mx-page-out; }
+  ::view-transition-new(root) { animation: .6s var(--ease-out) both mx-page-in; }
+
+  /* Titre et chapeau des pages : entrée douce, sans fondu (contraste toujours complet). */
+  .page-head h1 { animation: mx-head var(--t-slow) var(--ease-out) both; }
+  .page-head .lead, .page-head h1 + p { animation: mx-head var(--t-slow) var(--ease-out) .08s both; }
+
+  /* Blocs qui montent à leur entrée dans l'écran (navigateurs récents seulement). */
+  @supports (animation-timeline: view()) {
+    :is(.feature, .plan, .card, .faq details, .prose > section, .timeline > li, .steps > li, .table-scroll, .calc-inputs, .calc-result, .calc-stage, .guide-aside, .band .section-head) {
+      animation: mx-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+@keyframes mx-page-out { to { opacity: 0; transform: translateY(-14px); } }
+@keyframes mx-page-in { from { opacity: 0; transform: translateY(20px); } }
+@keyframes mx-head { from { transform: translateY(26px); } }
+@keyframes mx-rise { from { transform: translateY(44px) scale(.97); } }
+
+/* ---------- Configurateur 3D (page Tarifs) ---------- */
+.calc-stage {
+  position: relative; height: clamp(300px, 34vw, 460px); border-radius: var(--radius-l); overflow: hidden;
+  background: var(--studio); border: 1px solid var(--line);
+}
+.calc-stage img, .calc-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.calc-stage img { object-fit: cover; object-position: 50% 60%; }
+.calc-stage canvas { opacity: 0; transition: opacity .6s; cursor: grab; touch-action: pan-y; }
+.calc-stage canvas.is-ready { opacity: 1; }
+.calc-stage canvas:active { cursor: grabbing; }
+.calc-stage .stage-hint, .calc-stage .stage-count {
+  position: absolute; z-index: 1; font-size: 0.8125rem; color: #0E1E2C; background: rgba(255, 255, 255, .72);
+  border: 1px solid rgba(14, 30, 44, .12); border-radius: 999px; padding: 6px 12px;
+}
+.calc-stage .stage-hint { right: 14px; top: 14px; }
+.calc-stage .stage-count { left: 14px; bottom: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---------- Bouton « Calculer mon prix » sur téléphone ---------- */
+.mobile-cta { display: none; }
+@media (max-width: 860px) {
+  .mobile-cta {
+    position: fixed; z-index: 55; left: 0; right: 0; bottom: 0; display: flex;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border-top: 1px solid var(--line);
+    transform: translateY(110%); transition: transform var(--t-mid) var(--ease-out);
+  }
+  .mobile-cta.is-visible { transform: none; }
+  .mobile-cta .btn { flex: 1 1 auto; }
+}

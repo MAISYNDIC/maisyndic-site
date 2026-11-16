@@ -26,8 +26,9 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/style.css?v=20261112">
+<link rel="stylesheet" href="../assets/style.css?v=20261116">
 
+<script type="importmap">{"imports": {"three": "../assets/vendor/three/build/three.module.min.js"}}</script>
 </head>
 <body>
 <a class="skip" href="#main">Zum Inhalt springen</a>
@@ -76,6 +77,7 @@
 <section class="band band-soft" id="calcul"><div class="wrap">
 <div class="calc" data-calc data-per="also {value} pro Jahr">
 <h2>Berechnen Sie Ihren Preis</h2>
+<div class="calc-stage" data-calc-stage role="img" aria-label="3D-Modell des Gebäudes: Es wächst mit der gewählten Zahl der Wohnungen." data-count="{n} Wohnungen"><img src="../assets/hero/f121.webp" alt="" width="1280" height="720" loading="lazy" decoding="async"><canvas aria-hidden="true"></canvas><span class="stage-hint" aria-hidden="true">Zum Drehen ziehen</span><span class="stage-count" aria-hidden="true">9 Wohnungen</span></div>
 <div class="calc-grid">
 <div class="calc-inputs">
 <label for="calc-lots">Anzahl der Wohnungen</label>
@@ -145,6 +147,7 @@
 <span><a href="../fr/tarifs.html" hreflang="fr" lang="fr">Français</a> · <a href="../de/tarifs.html" hreflang="de" lang="de">Deutsch</a> · <a href="../en/tarifs.html" hreflang="en" lang="en">English</a> · <a href="../pt/tarifs.html" hreflang="pt" lang="pt">Português</a></span>
 </div>
 </footer>
-<script src="../assets/site.js?v=cc6edec2" defer></script>
+<script src="../assets/site.js?v=20261116" defer></script>
+<script type="module" src="../assets/calc-3d.js?v=1"></script>
 </body>
 </html>
