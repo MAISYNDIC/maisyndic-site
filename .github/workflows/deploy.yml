@@ -31,6 +31,18 @@ jobs:
             printf "<?php return ['user' => 'contact@maisyndic.lu', 'pass' => base64_decode('%s')];\n" "$B64" > ../private/smtp.php
           fi
 
+      - name: Préparer la transmission des demandes de devis à l'application (hors du dossier public)
+        env:
+          DEVIS_JETON: ${{ secrets.DEVIS_JETON }}
+        run: |
+          # Même valeur que le secret PROD_DEVIS_JETON du dépôt de l'application : sans lui, rien n'est transmis
+          # (le formulaire fonctionne comme avant).
+          JETON=$(printf '%s' "$DEVIS_JETON" | tr -d '[:space:]')
+          if [ -n "$JETON" ]; then
+            B64=$(printf '%s' "$JETON" | base64 -w0)
+            printf "<?php return ['url' => 'https://app.maisyndic.lu/api/demandes-devis', 'jeton' => base64_decode('%s')];\n" "$B64" > ../private/devis.php
+          fi
+
       - name: Envoyer le site dans le dossier www (SFTP)
         env:
           LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
@@ -43,4 +55,14 @@ jobs:
             lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
               open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
               mkdir -p data; put ../private/smtp.php -o data/smtp.php; chmod 600 data/smtp.php"
+          fi
+          if [ -f ../private/devis.php ]; then
+            lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
+              open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
+              mkdir -p data; put ../private/devis.php -o data/devis.php; chmod 600 data/devis.php"
+          else
+            # Secret retiré : plus aucune transmission (l'ancien fichier est effacé s'il existe).
+            lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
+              open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
+              rm -f data/devis.php" || true
           fi
