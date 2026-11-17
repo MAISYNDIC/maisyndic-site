@@ -317,4 +317,17 @@ if ($attachments && !empty($Q['i18n'][$lang]['pj_from'])) {
 }
 send_mail($email, $replySubject, $reply, TO_ADDRESS, $attachments);
 
+// --- 3. Copie de la demande de devis à l'application (suivi par l'équipe et deux rappels au demandeur) ---
+if ($objet === 'devis') {
+    try {
+        require_once __DIR__ . '/lib/devis.php';
+        forward_quote_request([
+            'nom' => $name, 'email' => $email, 'telephone' => $phone, 'langue' => $lang, 'lots' => $lots,
+            'commune' => $commune, 'residence' => $residence, 'formule' => $plan, 'qualite' => $role, 'message' => $message,
+        ]);
+    } catch (Throwable $e) {
+        error_log('maisyndic devis: ' . get_class($e));
+    }
+}
+
 respond(true);
