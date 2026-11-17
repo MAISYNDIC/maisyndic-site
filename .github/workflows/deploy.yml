@@ -60,4 +60,9 @@ jobs:
             lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
               open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
               mkdir -p data; put ../private/devis.php -o data/devis.php; chmod 600 data/devis.php"
+          else
+            # Secret retiré : plus aucune transmission (l'ancien fichier est effacé s'il existe).
+            lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
+              open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
+              rm -f data/devis.php" || true
           fi
