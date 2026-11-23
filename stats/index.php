@@ -245,7 +245,7 @@ button { font: inherit; background: var(--accent); color: #fff; border: 0; borde
 <div class="card kpi"><b><?= $s['views'] ?></b><span>pages vues</span> <?= delta($s['views'], $prev['views']) ?></div>
 <div class="card kpi"><b><?= $s['events']['lead'] ?></b><span>demandes de devis</span> <?= delta($s['events']['lead'], $prev['events']['lead']) ?></div>
 <div class="card kpi"><b><?= $s['events']['calc'] ?></b><span>calculs de prix</span> <?= delta($s['events']['calc'], $prev['events']['calc']) ?></div>
-<div class="card kpi"><b><?= $s['events']['tel'] + $s['events']['mail'] ?></b><span>clics téléphone ou e-mail</span></div>
+<div class="card kpi"><b><?= $s['events']['tel'] + $s['events']['mail'] + $s['events']['whatsapp'] ?></b><span>clics téléphone, e-mail ou WhatsApp</span></div>
 <div class="card kpi"><b><?= $s['visits'] ? (int) round($s['mobile'] / $s['visits'] * 100) : 0 ?> %</b><span>sur téléphone</span></div>
 </section>
 <section class="card"><h2>Visites par <?= $p > 90 ? 'semaine' : 'jour' ?></h2><?= chart($s['days'], $p) ?></section>
@@ -257,7 +257,8 @@ button { font: inherit; background: var(--accent); color: #fff; border: 0; borde
 <section class="card"><h2>Actions</h2><?= bars(array_filter([
     'Demandes de devis' => $s['events']['lead'], 'Calculateur utilisé' => $s['events']['calc'],
     'Clic sur le téléphone' => $s['events']['tel'], 'Clic sur l\'e-mail' => $s['events']['mail'],
-    'Vers la fiche Google' => $s['events']['google'], 'Vers Facebook' => $s['events']['facebook']]), fn($k) => $k) ?></section>
+    'Vers la fiche Google' => $s['events']['google'], 'Vers Facebook' => $s['events']['facebook'],
+    'Vers WhatsApp' => $s['events']['whatsapp']]), fn($k) => $k) ?></section>
 <section class="card"><h2>Demandes de devis par page</h2><?= bars($s['leads'], fn($k) => $k === '' ? 'page inconnue' : stats_page_label($k)) ?></section>
 </div>
 <p class="note">Mesure anonyme : ni cookie, ni adresse IP. Une visite = une arrivée sur le site depuis l'extérieur ; les robots sont exclus. Ce navigateur n'est pas compté dans les statistiques. Un rapport arrive chaque lundi à <?= $e(TO_ADDRESS) ?>. <a href="?logout=1">Se déconnecter</a></p>

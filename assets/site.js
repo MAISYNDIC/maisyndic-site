@@ -290,7 +290,7 @@
 
 /* Mesure d'audience anonyme (stats/collect.php) : ni cookie, ni identifiant, ni adresse IP.
    Envoie la page vue, le site d'origine et quelques actions (calculateur, téléphone, e-mail,
-   fiche Google, Facebook). Désactivée hors de maisyndic.lu, pour les navigateurs qui demandent
+   fiche Google, Facebook, WhatsApp). Désactivée hors de maisyndic.lu, pour les navigateurs qui demandent
    à ne pas être suivis, et sur le navigateur du gérant (adresse terminée par #nostats). */
 (function () {
   "use strict";
@@ -335,5 +335,6 @@
     else if (h.indexOf("mailto:") === 0) send("mail");
     else if (/maps\.google\.|google\.[a-z.]+\/maps|g\.page/.test(h)) send("google");
     else if (/facebook\.com/.test(h)) send("facebook");
+    else if (/^https:\/\/wa\.me\//.test(h)) send("whatsapp");
   }, true);
 })();
