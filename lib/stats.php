@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 date_default_timezone_set('Europe/Luxembourg');
 
-const STATS_EVENTS = ['view', 'calc', 'tel', 'mail', 'google', 'facebook', 'lead'];
+const STATS_EVENTS = ['view', 'calc', 'tel', 'mail', 'google', 'facebook', 'whatsapp', 'lead'];
 const STATS_KEEP_MONTHS = 25;
 const STATS_SITE = 'https://maisyndic.lu';
 
@@ -252,7 +252,7 @@ function stats_report_text(int $from, int $to): array
         . 'Demandes de devis reçues : ' . $ev['lead'] . "\n"
         . 'Calculateur de prix utilisé : ' . $ev['calc'] . " fois\n"
         . 'Clics sur le téléphone : ' . $ev['tel'] . ' · sur l\'e-mail : ' . $ev['mail']
-        . ' · vers la fiche Google : ' . $ev['google'] . ' · vers Facebook : ' . $ev['facebook'] . "\n"
+        . ' · vers la fiche Google : ' . $ev['google'] . ' · vers Facebook : ' . $ev['facebook'] . ' · sur WhatsApp : ' . $ev['whatsapp'] . "\n"
         . 'Sur téléphone : ' . ($s['visits'] ? (int) round($s['mobile'] / $s['visits'] * 100) : 0) . " % des visites\n\n"
         . "D'où viennent les visiteurs :\n" . $top($s['sources'], 8, fn($k) => $k)
         . "\nPages les plus vues :\n" . $top($s['pages'], 8, 'stats_page_label')
