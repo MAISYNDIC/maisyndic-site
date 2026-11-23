@@ -9,7 +9,7 @@
 - Bureau : 51 rue de Strasbourg, L-2561 Luxembourg (Luxembourg-Gare)
 - Zone d'intervention : toutes les communes du Grand-Duché de Luxembourg, mêmes prix partout
 - Langues : français, allemand, anglais, portugais
-- Contact : contact@maisyndic.lu, du lundi au vendredi, 9 h – 12 h et 14 h – 18 h
+- Contact : contact@maisyndic.lu, téléphone et WhatsApp +352 661 436 878, du lundi au vendredi, 9 h – 12 h et 14 h – 18 h
 - Délai de réponse : sous 48 h ouvrées
 
 ## Formules et prix (HTVA, par logement et par mois)
@@ -41,6 +41,10 @@
 - [Charges de copropriété](https://maisyndic.lu/fr/charges-copropriete.html)
 - [Règlement de copropriété](https://maisyndic.lu/fr/reglement-copropriete.html)
 - [Syndic dans tout le Luxembourg](https://maisyndic.lu/fr/syndic-luxembourg.html)
+- [Charges impayées : comment le syndic les récupère](https://maisyndic.lu/fr/impayes-copropriete.html)
+- [Vendre son appartement en copropriété au Luxembourg](https://maisyndic.lu/fr/vente-lot-copropriete.html)
+- [Chauffage et eau chaude : comment sont répartis les frais](https://maisyndic.lu/fr/decompte-chauffage-copropriete.html)
+- [Immeuble neuf : réussir la première assemblée générale](https://maisyndic.lu/fr/premiere-assemblee-immeuble-neuf.html)
 
 ## English
 
@@ -52,6 +56,10 @@
 - [The general meeting](https://maisyndic.lu/en/assemblee-generale-copropriete.html)
 - [Co-ownership charges](https://maisyndic.lu/en/charges-copropriete.html)
 - [The co-ownership rules](https://maisyndic.lu/en/reglement-copropriete.html)
+- [Unpaid charges: how the syndic recovers them](https://maisyndic.lu/en/impayes-copropriete.html)
+- [Selling your flat in a co-ownership in Luxembourg](https://maisyndic.lu/en/vente-lot-copropriete.html)
+- [Heating and hot water: how the costs are shared](https://maisyndic.lu/en/decompte-chauffage-copropriete.html)
+- [New building: getting the first general meeting right](https://maisyndic.lu/en/premiere-assemblee-immeuble-neuf.html)
 
 ## Deutsch
 
@@ -59,6 +67,10 @@
 - [Angebote und Preise](https://maisyndic.lu/de/tarifs.html)
 - [Wie wählt man einen Syndic in Luxemburg?](https://maisyndic.lu/de/choisir-syndic-copropriete.html)
 - [Was kostet ein Syndic?](https://maisyndic.lu/de/prix-syndic-luxembourg.html)
+- [Unbezahlte Nebenkosten: So treibt der Syndic sie ein](https://maisyndic.lu/de/impayes-copropriete.html)
+- [Eine Wohnung im Miteigentum in Luxemburg verkaufen](https://maisyndic.lu/de/vente-lot-copropriete.html)
+- [Heizung und Warmwasser: So werden die Kosten verteilt](https://maisyndic.lu/de/decompte-chauffage-copropriete.html)
+- [Neubau: So gelingt die erste Generalversammlung](https://maisyndic.lu/de/premiere-assemblee-immeuble-neuf.html)
 
 ## Português
 
@@ -66,3 +78,7 @@
 - [Planos e preços](https://maisyndic.lu/pt/tarifs.html)
 - [Como escolher um syndic no Luxemburgo](https://maisyndic.lu/pt/choisir-syndic-copropriete.html)
 - [Quanto custa um syndic](https://maisyndic.lu/pt/prix-syndic-luxembourg.html)
+- [Quotas em atraso: como o syndic as recupera](https://maisyndic.lu/pt/impayes-copropriete.html)
+- [Vender o seu apartamento em condomínio no Luxemburgo](https://maisyndic.lu/pt/vente-lot-copropriete.html)
+- [Aquecimento e água quente: como são repartidos os custos](https://maisyndic.lu/pt/decompte-chauffage-copropriete.html)
+- [Prédio novo: acertar na primeira assembleia geral](https://maisyndic.lu/pt/premiere-assemblee-immeuble-neuf.html)
