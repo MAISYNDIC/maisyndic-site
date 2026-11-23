@@ -71,6 +71,8 @@ jobs:
           lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
             open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
             mirror --reverse --delete --verbose --exclude-glob .git* --exclude .github/ ./ www/"
+          # Sans le secret SMTP_PASSWORD, le fichier data/smtp.php déjà sur l'hébergement n'est pas touché : si le secret est
+          # retiré exprès, effacer ce fichier à la main (sinon l'ancien mot de passe y reste).
           if [ -f ../private/smtp.php ]; then
             lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
               open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \

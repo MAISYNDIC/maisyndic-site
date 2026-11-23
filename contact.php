@@ -69,6 +69,7 @@ function clean_line($v, int $max = 120): string
     // Caractères invisibles (trait d'union conditionnel, espace de largeur nulle…) retirés, et points « ressemblants »
     // ramenés au point : « evil.lu » ne passe plus caché (audit de sécurité du 23/11/2026).
     $v = preg_replace('/\p{Cf}+/u', '', $v) ?? '';
+    $v = preg_replace('/\p{Zs}/u', ' ', $v) ?? '';
     $v = str_replace(["\u{2024}", "\u{FF0E}", "\u{3002}", "\u{FE52}"], '.', $v);
     return trim(mb_substr($v, 0, $max));
 }
@@ -88,16 +89,22 @@ function clean_text($v, int $max = 3000): string
  */
 function has_link(string $v): bool
 {
-    // Adresse web, e-mail, ou « mot.extension » d'un nom de domaine (liste des extensions courantes, et toute extension écrite
-    // en caractères non latins). « Rés.Les Pins », « St.Hubert » ou « Bât.Nord » restent acceptés.
-    $extensions = 'lu|com|fr|de|be|eu|nl|ch|at|it|es|pt|uk|us|net|org|info|biz|io|ly|co|me|app|dev|xyz|site|online|top|link|click|'
-        . 'shop|store|live|tk|ru|cn|cc|ws|to|gl|gd|is|in|pw|su|win|vip|icu|cam|zip|mov|li|ai';
-    return preg_match('#(https?:|www\.|://|@|[\p{L}\p{N}-]\.(?:' . $extensions . ')(?![\p{L}\p{N}])|[\p{L}\p{N}-]\.[^\x00-\x7F\s]{2,})#iu', $v) === 1;
+    return preg_match('#(https?:|www\.|://|@)#iu', $v) === 1;
 }
 
-$name = clean_line($in['name'] ?? '', 80);
+/**
+ * Point collé entre une lettre (ou un chiffre) et une lettre : une espace est ajoutée après (« St.Hubert » devient
+ * « St. Hubert », « evil.support » devient « evil. support ») : aucun nom de domaine ne peut se former, quelle que soit son
+ * extension, et aucun vrai nom n'est refusé.
+ */
+function sans_lien(string $v): string
+{
+    return preg_replace('/(?<=[\p{L}\p{N}])\.(?=\p{L})/u', '. ', $v) ?? $v;
+}
+
+$name = sans_lien(clean_line($in['name'] ?? '', 80));
 $email = clean_line($in['email'] ?? '', 120);
-$commune = clean_line($in['commune'] ?? '', 80);
+$commune = sans_lien(clean_line($in['commune'] ?? '', 80));
 if ($name === '' || $commune === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'fields', 422);
 }
@@ -188,9 +195,9 @@ $plan = clean_line($in['plan'] ?? '', 20);
 $lots = (int) ($in['lots'] ?? 0);
 $lots = ($lots >= 1 && $lots <= 2000) ? $lots : 0;
 $phone = clean_line($in['phone'] ?? '', 40);
-$role = clean_line($in['role'] ?? '', 80);
+$role = sans_lien(clean_line($in['role'] ?? '', 80));
 $message = clean_text($in['message'] ?? '');
-$residence = clean_line($in['residence'] ?? '', 120);
+$residence = sans_lien(clean_line($in['residence'] ?? '', 120));
 
 /** Montant au format de la langue (sans dépendre de l'extension intl). */
 function money(float $v, int $dec, string $lang): string
