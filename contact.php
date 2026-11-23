@@ -14,7 +14,9 @@ declare(strict_types=1);
 
 const TO_ADDRESS = 'contact@maisyndic.lu';
 const FROM_NAME = 'mäisyndic';
-const MAX_PER_HOUR = 5;          // demandes par adresse IP et par heure
+const MAX_PER_HOUR = 5;          // demandes par réseau (adresse IP ; bloc /64 en IPv6) et par heure
+const MAX_SITE_PER_HOUR = 30;    // demandes par heure pour tout le site (audit de sécurité du 23/11/2026)
+const MAX_REPLIES_PER_DAY = 1;   // réponses automatiques (et copies à l'application) par adresse e-mail et par jour
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -75,30 +77,79 @@ function clean_text($v, int $max = 3000): string
     return trim(mb_substr($v, 0, $max));
 }
 
+/**
+ * Lien, adresse web ou e-mail dans un nom, une commune, une résidence ou une qualité : refusés. Ces textes sont repris dans
+ * la réponse automatique envoyée depuis contact@ : sans ce contrôle, le formulaire servirait à envoyer un e-mail piégé
+ * (« réactivez votre compte sur https://… ») à n'importe quelle adresse (audit de sécurité du 23/11/2026).
+ */
+function has_link(string $v): bool
+{
+    return preg_match('#(https?:|www\.|://|@|[a-z0-9-]\.[a-z]{2,}(?:/|\b))#iu', $v) === 1;
+}
+
 $name = clean_line($in['name'] ?? '', 80);
 $email = clean_line($in['email'] ?? '', 120);
 $commune = clean_line($in['commune'] ?? '', 80);
 if ($name === '' || $commune === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'fields', 422);
 }
+foreach ([$name, $commune, clean_line($in['residence'] ?? '', 120), clean_line($in['role'] ?? '', 80)] as $champ) {
+    if (has_link($champ)) {
+        respond(false, 'fields', 422);
+    }
+}
 
-// Limite simple par adresse IP, stockée hors du dossier public.
+/**
+ * Compte une demande dans un fichier de limitation, sous verrou (des envois simultanés ne passent plus à travers) : vrai si
+ * elle est acceptée (et notée), faux si la limite est atteinte. Un disque qui refuse n'empêche jamais une demande.
+ */
+function rate_hit(string $file, int $max, int $window): bool
+{
+    $fh = @fopen($file, 'c+');
+    if ($fh === false) {
+        return true;
+    }
+    try {
+        flock($fh, LOCK_EX);
+        $now = time();
+        $hits = array_values(array_filter((array) json_decode((string) stream_get_contents($fh), true), fn($t) => is_int($t) && $t > $now - $window));
+        if (count($hits) >= $max) {
+            return false;
+        }
+        $hits[] = $now;
+        ftruncate($fh, 0);
+        rewind($fh);
+        fwrite($fh, json_encode($hits));
+        fflush($fh);
+        return true;
+    } finally {
+        flock($fh, LOCK_UN);
+        fclose($fh);
+    }
+}
+
+/** Réseau de l'adresse IP : l'adresse entière en IPv4, le bloc /64 en IPv6 (un abonné en reçoit tout un). */
+function network_of(string $ip): string
+{
+    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false && ($bin = @inet_pton($ip)) !== false) {
+        return bin2hex(substr($bin, 0, 8)) . '::/64';
+    }
+    return $ip;
+}
+
+// Limites (fichiers hors du dossier public, empreintes seulement) : par réseau, pour tout le site.
 $dataDir = dirname(__DIR__) . '/data';
 if (!is_dir($dataDir)) {
     @mkdir($dataDir, 0700, true);
 }
-$ipKey = hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . 'maisyndic');
-$rateFile = $dataDir . '/rate-' . substr($ipKey, 0, 24) . '.json';
-$now = time();
-$hits = [];
-if (is_file($rateFile)) {
-    $hits = array_filter((array) json_decode((string) file_get_contents($rateFile), true), fn($t) => is_int($t) && $t > $now - 3600);
-}
-if (count($hits) >= MAX_PER_HOUR) {
+$ipKey = hash('sha256', network_of((string) ($_SERVER['REMOTE_ADDR'] ?? '')) . 'maisyndic');
+if (!rate_hit($dataDir . '/rate-' . substr($ipKey, 0, 24) . '.json', MAX_PER_HOUR, 3600)) {
     respond(false, 'rate', 429);
 }
-$hits[] = $now;
-@file_put_contents($rateFile, json_encode(array_values($hits)), LOCK_EX);
+if (!rate_hit($dataDir . '/rate-site.json', MAX_SITE_PER_HOUR, 3600)) {
+    error_log('maisyndic: plafond de demandes du site atteint (' . MAX_SITE_PER_HOUR . ' par heure)');
+    respond(false, 'rate', 429);
+}
 
 // Modèles de réponse et prix, générés par le site (build.py).
 $cfg = json_decode((string) @file_get_contents(__DIR__ . '/contact-data.json'), true);
@@ -280,6 +331,13 @@ try {
     stats_record(['e' => 'lead', 'p' => preg_match('#^/[A-Za-z0-9/._-]{0,150}$#', $refPath) ? $refPath : '', 'l' => $lang, 'o' => $objet]);
 } catch (Throwable $e) {
     error_log('maisyndic stats: ' . $e->getMessage());
+}
+
+// Une seule réponse automatique (et une seule copie à l'application, donc une seule série de rappels) par adresse e-mail et
+// par jour : la demande arrive toujours à l'agence, mais on n'écrit pas dix fois à la même personne.
+$emailKey = hash('sha256', mb_strtolower($email) . 'maisyndic');
+if (!rate_hit($dataDir . '/rate-dest-' . substr($emailKey, 0, 24) . '.json', MAX_REPLIES_PER_DAY, 86400)) {
+    respond(true);
 }
 
 // --- 2. La réponse automatique, pour le demandeur -------------------------

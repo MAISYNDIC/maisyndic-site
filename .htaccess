@@ -28,6 +28,13 @@ Header always set X-Frame-Options "SAMEORIGIN"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 Header always set Strict-Transport-Security "max-age=31536000"
+# Politique de contenu minimale (audit de sécurité du 23/11/2026) : la page ne peut pas être affichée dans le cadre d'un autre
+# site, ni charger de plugin, ni changer son adresse de base, ni envoyer un formulaire ailleurs. Les scripts restent permis
+# tels qu'aujourd'hui (carte des imports des scènes 3D écrite dans la page).
+Header always set Content-Security-Policy "frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+# Version de PHP jamais annoncée (pages des statistiques et du formulaire).
+Header always unset X-Powered-By
+Header unset X-Powered-By
 </IfModule>
 
 # --- Compression ---
