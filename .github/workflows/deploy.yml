@@ -11,15 +11,35 @@ concurrency:
   group: deploy-ovh
   cancel-in-progress: false
 
+# Droits minimaux du jeton GitHub : lire le dépôt, rien d'autre (audit de sécurité du 23/11/2026).
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Récupérer les fichiers du site
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0 (empreinte fixe : audit du 23/11/2026)
 
       - name: Installer lftp
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Vérifier l'identité du serveur OVH (empreinte connue)
+        env:
+          SITE_OVH_KNOWN_HOSTS: ${{ vars.SITE_OVH_KNOWN_HOSTS }}
+        run: |
+          # Avec la variable SITE_OVH_KNOWN_HOSTS (empreinte du serveur du SITE, cluster129 : différent de celui de
+          # l'application), un faux serveur est refusé. Valeur : le résultat de « ssh-keyscan ssh.cluster129.hosting.ovh.net ».
+          # Sans elle, l'empreinte est acceptée à la première connexion, comme avant : un avertissement le rappelle.
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          if [ -n "$SITE_OVH_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$SITE_OVH_KNOWN_HOSTS" | tr -d '\r' > ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
+            echo "LFTP_SSH=set sftp:auto-confirm no; set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=yes';" >> "$GITHUB_ENV"
+          else
+            echo "::warning::Variable SITE_OVH_KNOWN_HOSTS absente : l'identité du serveur n'est pas vérifiée."
+            echo "LFTP_SSH=set sftp:auto-confirm yes;" >> "$GITHUB_ENV"
+          fi
 
       - name: Préparer la configuration d'envoi des e-mails (hors du dossier public)
         env:
@@ -48,21 +68,23 @@ jobs:
           LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           if [ -z "$LFTP_PASSWORD" ]; then echo "Le secret FTP_PASSWORD n'est pas encore défini."; exit 1; fi
-          lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
+          lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
             open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
             mirror --reverse --delete --verbose --exclude-glob .git* --exclude .github/ ./ www/"
+          # Sans le secret SMTP_PASSWORD, le fichier data/smtp.php déjà sur l'hébergement n'est pas touché : si le secret est
+          # retiré exprès, effacer ce fichier à la main (sinon l'ancien mot de passe y reste).
           if [ -f ../private/smtp.php ]; then
-            lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
+            lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
               open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
               mkdir -p data; put ../private/smtp.php -o data/smtp.php; chmod 600 data/smtp.php"
           fi
           if [ -f ../private/devis.php ]; then
-            lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
+            lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
               open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
               mkdir -p data; put ../private/devis.php -o data/devis.php; chmod 600 data/devis.php"
           else
             # Secret retiré : plus aucune transmission (l'ancien fichier est effacé s'il existe).
-            lftp -c "set sftp:auto-confirm yes; set net:max-retries 3; set net:timeout 30; \
+            lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
               open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
               rm -f data/devis.php" || true
           fi

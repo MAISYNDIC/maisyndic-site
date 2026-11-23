@@ -49,6 +49,29 @@ function auth_save(array $d): void
     @chmod($f, 0600);
 }
 
+/**
+ * Lecture et écriture de auth.json sous verrou : des demandes simultanées ne créent plus de liens perdus ni plus d'e-mails
+ * que la limite (audit de sécurité du 23/11/2026). Renvoie ce que renvoie $f, qui peut modifier les données.
+ */
+function with_auth(callable $f)
+{
+    $lock = @fopen(stats_dir() . '/auth.lock', 'c');
+    if ($lock !== false) {
+        flock($lock, LOCK_EX);
+    }
+    try {
+        $d = auth_store();
+        $r = $f($d);
+        auth_save($d);
+        return $r;
+    } finally {
+        if ($lock !== false) {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+}
+
 function signed_in(): bool
 {
     $c = (string) ($_COOKIE[COOKIE] ?? '');
@@ -76,11 +99,15 @@ $notice = '';
 
 // 1. Lien reçu par e-mail
 if (isset($_GET['k']) && is_string($_GET['k'])) {
-    $d = auth_store();
     $h = hash('sha256', $_GET['k']);
-    if (isset($d['tokens'][$h])) {
+    $valable = with_auth(function (array &$d) use ($h) {
+        if (!isset($d['tokens'][$h])) {
+            return false;
+        }
         unset($d['tokens'][$h]);
-        auth_save($d);
+        return true;
+    });
+    if ($valable) {
         set_session(time() + SESSION_DAYS * 86400);
         header('Location: ' . base_url(), true, 303);
         exit;
@@ -97,12 +124,30 @@ if (isset($_GET['logout'])) {
 
 // 3. Demande d'un lien de connexion
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && ($_POST['action'] ?? '') === 'link') {
-    $d = auth_store();
-    if (count($d['sent']) < LINKS_PER_HOUR) {
+    // 5 liens par heure en tout, et 2 par réseau : une seule personne ne peut plus bloquer la connexion de l'agence.
+    // Réseau : adresse IPv4 entière, bloc /64 en IPv6 (un abonné en reçoit tout un).
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $bin = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false ? @inet_pton($ip) : false;
+    if ($bin !== false) {
+        $ip = strncmp($bin, str_repeat("\0", 10) . "\xFF\xFF", 12) === 0 ? (string) inet_ntop(substr($bin, 12)) : bin2hex(substr($bin, 0, 8)) . '::/64';
+    }
+    $reseau = substr(hash('sha256', $ip . 'stats'), 0, 16);
+    $token = with_auth(function (array &$d) use ($reseau) {
+        $now = time();
+        $d['par_reseau'] = array_filter((array) ($d['par_reseau'] ?? []), fn($l) => is_array($l) && $l !== []);
+        foreach ($d['par_reseau'] as $k => $l) {
+            $d['par_reseau'][$k] = array_values(array_filter($l, fn($t) => is_int($t) && $t > $now - 3600));
+        }
+        if (count($d['sent']) >= LINKS_PER_HOUR || count($d['par_reseau'][$reseau] ?? []) >= 2) {
+            return null;
+        }
         $token = bin2hex(random_bytes(24));
-        $d['tokens'][hash('sha256', $token)] = time() + LINK_MINUTES * 60;
-        $d['sent'][] = time();
-        auth_save($d);
+        $d['tokens'][hash('sha256', $token)] = $now + LINK_MINUTES * 60;
+        $d['sent'][] = $now;
+        $d['par_reseau'][$reseau][] = $now;
+        return $token;
+    });
+    if ($token !== null) {
         $link = base_url() . '?k=' . $token;
         send_mail(TO_ADDRESS, 'mäisyndic · votre lien vers les statistiques',
             "Bonjour,\n\nVoici votre lien de connexion au tableau de bord des statistiques du site :\n\n" . $link
