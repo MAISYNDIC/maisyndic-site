@@ -125,7 +125,13 @@ if (isset($_GET['logout'])) {
 // 3. Demande d'un lien de connexion
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && ($_POST['action'] ?? '') === 'link') {
     // 5 liens par heure en tout, et 2 par réseau : une seule personne ne peut plus bloquer la connexion de l'agence.
-    $reseau = substr(hash('sha256', (string) ($_SERVER['REMOTE_ADDR'] ?? '') . 'stats'), 0, 16);
+    // Réseau : adresse IPv4 entière, bloc /64 en IPv6 (un abonné en reçoit tout un).
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $bin = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false ? @inet_pton($ip) : false;
+    if ($bin !== false) {
+        $ip = strncmp($bin, str_repeat("\0", 10) . "\xFF\xFF", 12) === 0 ? (string) inet_ntop(substr($bin, 12)) : bin2hex(substr($bin, 0, 8)) . '::/64';
+    }
+    $reseau = substr(hash('sha256', $ip . 'stats'), 0, 16);
     $token = with_auth(function (array &$d) use ($reseau) {
         $now = time();
         $d['par_reseau'] = array_filter((array) ($d['par_reseau'] ?? []), fn($l) => is_array($l) && $l !== []);

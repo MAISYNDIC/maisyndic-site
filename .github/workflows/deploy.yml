@@ -20,23 +20,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Récupérer les fichiers du site
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0 (empreinte fixe : audit du 23/11/2026)
 
       - name: Installer lftp
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
       - name: Vérifier l'identité du serveur OVH (empreinte connue)
         env:
-          OVH_KNOWN_HOSTS: ${{ vars.OVH_KNOWN_HOSTS }}
+          SITE_OVH_KNOWN_HOSTS: ${{ vars.SITE_OVH_KNOWN_HOSTS }}
         run: |
-          # Avec la variable OVH_KNOWN_HOSTS (empreinte du serveur), un faux serveur est refusé. Sans elle, l'empreinte est
-          # acceptée à la première connexion, comme avant : un avertissement le rappelle.
+          # Avec la variable SITE_OVH_KNOWN_HOSTS (empreinte du serveur du SITE, cluster129 : différent de celui de
+          # l'application), un faux serveur est refusé. Valeur : le résultat de « ssh-keyscan ssh.cluster129.hosting.ovh.net ».
+          # Sans elle, l'empreinte est acceptée à la première connexion, comme avant : un avertissement le rappelle.
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          if [ -n "$OVH_KNOWN_HOSTS" ]; then
-            printf '%s\n' "$OVH_KNOWN_HOSTS" > ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
+          if [ -n "$SITE_OVH_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$SITE_OVH_KNOWN_HOSTS" | tr -d '\r' > ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
             echo "LFTP_SSH=set sftp:auto-confirm no; set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=yes';" >> "$GITHUB_ENV"
           else
-            echo "::warning::Variable OVH_KNOWN_HOSTS absente : l'identité du serveur n'est pas vérifiée."
+            echo "::warning::Variable SITE_OVH_KNOWN_HOSTS absente : l'identité du serveur n'est pas vérifiée."
             echo "LFTP_SSH=set sftp:auto-confirm yes;" >> "$GITHUB_ENV"
           fi
 
@@ -74,11 +75,6 @@ jobs:
             lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
               open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
               mkdir -p data; put ../private/smtp.php -o data/smtp.php; chmod 600 data/smtp.php"
-          else
-            # Secret retiré : le mot de passe de la boîte ne reste pas sur l'hébergement.
-            lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
-              open --env-password -u maisynh sftp://ssh.cluster129.hosting.ovh.net; \
-              rm -f data/smtp.php" || true
           fi
           if [ -f ../private/devis.php ]; then
             lftp -c "$LFTP_SSH set net:max-retries 3; set net:timeout 30; \
