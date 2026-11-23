@@ -150,13 +150,13 @@ function sceneEspace({ THREE, scene, MAT, B, W, D, BASE_H, reduce }) {
     card(272, 92);
     x.fillStyle = '#4A5B6A'; x.font = font(500, 16); x.fillText(txt.agK, 38, 304);
     x.fillStyle = '#0E1E2C'; x.font = font(700, 20); x.fillText(txt.agV, 38, 338);
-    card(380, 112);
+    card(380, 84);
     x.fillStyle = '#4A5B6A'; x.font = font(500, 16); x.fillText(txt.fundK, 38, 412);
     x.fillStyle = '#0E1E2C'; x.font = font(700, 20); x.fillText(txt.fundV, 38, 444);
-    card(508, 186);
-    x.fillStyle = '#4A5B6A'; x.font = font(500, 16); x.fillText(txt.docsK, 38, 540);
+    card(480, 186);
+    x.fillStyle = '#4A5B6A'; x.font = font(500, 16); x.fillText(txt.docsK, 38, 512);
     txt.docs.slice(0, 3).forEach((d, i) => {
-      const Y = 566 + i * 40;
+      const Y = 538 + i * 40;
       x.fillStyle = '#E3EEF8'; rr(38, Y, 28, 28, 7); x.fill();
       x.fillStyle = '#0E1E2C'; x.font = font(500, 16);
       let label = d; while (x.measureText(label).width > SW - 130 && label.length > 4) label = label.slice(0, -2);
