@@ -128,7 +128,7 @@ function sceneEspace({ THREE, scene, MAT, B, W, D, BASE_H, reduce }) {
   scene.add(B.makeBuilding(4, 3, { extra: EXTRA }));
   const txt = Object.assign({
     app: 'mäisyndic', residence: 'Résidence Les Tilleuls', sub: 'Exemple · 9 lots', balanceK: 'Votre solde', balanceV: '0,00 €',
-    agK: 'Prochaine AG', agV: 'Mar. 9 mars, 16 h', fundK: 'Fonds de travaux', fundV: '18 450 €', docsK: 'Derniers documents',
+    agK: 'Prochaine AG', agV: 'Mar. 9 mars, 16 h', fundK: 'Prochain appel de fonds', fundV: '1er avril · 570 €', docsK: 'Derniers documents',
     docs: ['Décompte des charges 2025', 'Procès-verbal de l\'AG 2026', 'Contrat d\'entretien'],
   }, JSON.parse(holder.getAttribute('data-i18n') || '{}'));
   const SW = 360, SH = 720;
@@ -138,7 +138,6 @@ function sceneEspace({ THREE, scene, MAT, B, W, D, BASE_H, reduce }) {
   const rr = (X, Y, w, h, r) => { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); };
   const font = (w, s) => `${w} ${s}px Inter, "Segoe UI", system-ui, sans-serif`;
   function draw(t) {
-    const fill = Math.min(1, (t % 6) / 3.2) * 0.62;
     x.fillStyle = '#F2F6F9'; x.fillRect(0, 0, SW, SH);
     x.fillStyle = '#0B5FA5'; x.fillRect(0, 0, SW, 132);
     x.fillStyle = '#FFFFFF'; x.font = font(700, 26); x.fillText(txt.app, 26, 62);
@@ -151,15 +150,13 @@ function sceneEspace({ THREE, scene, MAT, B, W, D, BASE_H, reduce }) {
     card(272, 92);
     x.fillStyle = '#4A5B6A'; x.font = font(500, 16); x.fillText(txt.agK, 38, 304);
     x.fillStyle = '#0E1E2C'; x.font = font(700, 20); x.fillText(txt.agV, 38, 338);
-    card(380, 112);
+    card(380, 84);
     x.fillStyle = '#4A5B6A'; x.font = font(500, 16); x.fillText(txt.fundK, 38, 412);
     x.fillStyle = '#0E1E2C'; x.font = font(700, 20); x.fillText(txt.fundV, 38, 444);
-    x.fillStyle = '#E3E9EE'; rr(38, 460, SW - 76, 12, 6); x.fill();
-    x.fillStyle = '#0B5FA5'; rr(38, 460, Math.max(12, (SW - 76) * fill), 12, 6); x.fill();
-    card(508, 186);
-    x.fillStyle = '#4A5B6A'; x.font = font(500, 16); x.fillText(txt.docsK, 38, 540);
+    card(480, 186);
+    x.fillStyle = '#4A5B6A'; x.font = font(500, 16); x.fillText(txt.docsK, 38, 512);
     txt.docs.slice(0, 3).forEach((d, i) => {
-      const Y = 566 + i * 40;
+      const Y = 538 + i * 40;
       x.fillStyle = '#E3EEF8'; rr(38, Y, 28, 28, 7); x.fill();
       x.fillStyle = '#0E1E2C'; x.font = font(500, 16);
       let label = d; while (x.measureText(label).width > SW - 130 && label.length > 4) label = label.slice(0, -2);
